@@ -18,14 +18,31 @@ library(knitr)
 <!-- badges: start -->
 <!-- badges: end -->
 
-The package `themesv` contains a ggplot theme theme_sv for making uniformly formatted viz in the SCORE network
+The package `themesv` contains a `ggplot` theme `theme_sv` for making uniformly formatted viz in the SCORE network
 
 ## Installation
 
-You can install the GitHub version of themesv  with:
+You can install the GitHub version of `themesv` with:
 
 ``` r
 install_github("bmacGTPM/themesv")
+```
+
+If you don't have a Personal Access Token set up yet, you'll have to 
+
+- Go to https://github.com/settings/tokens
+- Click Generate New Token, and 
+- Copy that long string of letters and numbers to this command in R
+
+```r
+Sys.setenv(GITHUB_PAT='YourLongListOfLettersAndNumbers')
+Sys.getenv() ## check
+```
+
+If you get an error about download method, try changing this option before installing. 
+
+```r
+options(download.file.method = 'libcurl')
 ```
 
 ## Example Figures 
