@@ -1,2 +1,2 @@
 # themesv
-A ggplot theme for the sportsverse
+A ggplot theme.
