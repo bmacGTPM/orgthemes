@@ -55,12 +55,12 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' # ggsave(filename='Example Scatter Plot.jpg',
-#' #        plot=g + theme_sv(type='scatter', base_size=36),
-#' #        width=20,   ## do not change
-#' #        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
-#' #        units='in', ## do not change
-#' #        dpi=72)     ## do not change
+#' ggsave(filename='Example Scatter Plot.jpg',
+#'        plot=g + theme_sv(type='scatter', base_size=36),
+#'        width=20,   ## do not change
+#'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
+#'        units='in', ## do not change
+#'        dpi=72)     ## do not change
 #'
 #' ## Line plot
 #' dg = economics_long
@@ -86,12 +86,12 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' # ggsave(filename='Example Line Plot.jpg',
-#' #        plot=g + theme_sv(type='line', base_size=36),
-#' #        width=20,   ## do not change
-#' #        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
-#' #        units='in', ## do not change
-#' #        dpi=72)     ## do not change
+#' ggsave(filename='Example Line Plot.jpg',
+#'        plot=g + theme_sv(type='line', base_size=36),
+#'        width=20,   ## do not change
+#'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
+#'        units='in', ## do not change
+#'        dpi=72)     ## do not change
 #'
 #'
 #' ## Histogram example
@@ -111,12 +111,12 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' # ggsave(filename='Example Histogram.jpg',
-#' #        plot = g + theme_sv(type='hist', base_size=36),
-#' #        width=20,   ## do not change
-#' #        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
-#' #        units='in', ## do not change
-#' #        dpi=72)     ## do not change
+#' ggsave(filename='Example Histogram.jpg',
+#'        plot = g + theme_sv(type='hist', base_size=36),
+#'        width=20,   ## do not change
+#'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
+#'        units='in', ## do not change
+#'        dpi=72)     ## do not change
 #'
 #' ## Bar plot example
 #' dg = mtcars %>%
@@ -143,12 +143,12 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' # ggsave(filename='Example Bar Plot.jpg',
-#' #        plot = g + theme_sv(type='bar', base_size=36),
-#' #        width=20,   ## do not change
-#' #        height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
-#' #        units='in', ## do not change
-#' #        dpi=72)     ## do not change
+#' ggsave(filename='Example Bar Plot.jpg',
+#'        plot = g + theme_sv(type='bar', base_size=36),
+#'        width=20,   ## do not change
+#'        height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
+#'        units='in', ## do not change
+#'        dpi=72)     ## do not change
 #'
 #' ## Grid plot example
 #' dg = airquality %>%
@@ -181,12 +181,12 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## When in doubt, choose height so that the tiles are square
-#' # ggsave(filename='Example Grid Plot.jpg',
-#' #        plot=g + theme_sv(type='grid', base_size=36),
-#' #        width=20,   ## do not change
-#' #        height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
-#' #        units='in', ## do not change
-#' #        dpi=72)     ## do not change
+#' ggsave(filename='Example Grid Plot.jpg',
+#'        plot=g + theme_sv(type='grid', base_size=36),
+#'        width=20,   ## do not change
+#'        height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
+#'        units='in', ## do not change
+#'        dpi=72)     ## do not change
 #'
 #'
 #' ## Faceting example
@@ -214,18 +214,18 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## Square images are often preferred, so when in doubt, choose height so that each subplot is square.
-#' # ggsave(filename='Example Plot with Faceting.jpg',
-#' #        plot=g + theme_sv(type='scatter', base_size=36, facet=T),
-#' #        width=20,   ## do not change
-#' #        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
-#' #        units='in', ## do not change
-#' #        dpi=72)     ## do not change
+#' ggsave(filename='Example Plot with Faceting.jpg',
+#'        plot=g + theme_sv(type='scatter', base_size=36, facet=T),
+#'        width=20,   ## do not change
+#'        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
+#'        units='in', ## do not change
+#'        dpi=72)     ## do not change
 #'
 
 theme_sv <- function (type='line',
                       base_size = 36/3,
                       base_family = "sans",
-                      base_line_size=base_size*.35/36*2,
+                      base_line_size=base_size*.35/36*3,
                       base_rect_size=base_size*.35/36,
                       facet=F){
 
@@ -299,7 +299,7 @@ theme_sv <- function (type='line',
              legend.spacing.x  = unit(20*px, 'in'),
              legend.spacing.y  = NULL,
              legend.key        = element_rect(fill = NA, colour = NA),
-             legend.key.size   = unit(0, "in"),
+             legend.key.size   = unit(30*px, "in"),
              legend.key.height = NULL,
              legend.key.width  = NULL,
              legend.text       = element_text(size = base_size, margin = margin(0,50*px, 0, 0, 'in')),
@@ -358,8 +358,8 @@ theme_sv <- function (type='line',
 
   ## Change the base theme based on the type of plot specified by the user.
   if(type=='scatter'){th = th + theme(panel.grid.major.x = element_line(colour = svlightgray))}
-  if(type=='line'   ){th = th + theme(axis.line.y  = element_blank(),
-                                      axis.ticks.y = element_line(colour = svlightgray))}
+  if(type=='line'   ){th = th #+ theme(#axis.line.y  = element_blank(), axis.ticks.y = element_line(colour = svlightgray))
+  }
   if(type=='bar'    ){th = th + theme(axis.line  = element_blank(),
                                       axis.ticks = element_blank(),
                                       axis.ticks.length = unit(0, "pt"), # set to 0, otherwise the blank ticks take up whitespace

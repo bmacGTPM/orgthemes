@@ -8,7 +8,7 @@ theme_sv(
   type = "line",
   base_size = 36/3,
   base_family = "sans",
-  base_line_size = base_size * 0.35/36 * 2,
+  base_line_size = base_size * 0.35/36 * 3,
   base_rect_size = base_size * 0.35/36,
   facet = F
 )
@@ -61,12 +61,12 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## A square image is often preferred, so when in doubt, keep height at 20.
-# ggsave(filename='Example Scatter Plot.jpg',
-#        plot=g + theme_sv(type='scatter', base_size=36),
-#        width=20,   ## do not change
-#        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
-#        units='in', ## do not change
-#        dpi=72)     ## do not change
+ggsave(filename='Example Scatter Plot.jpg',
+       plot=g + theme_sv(type='scatter', base_size=36),
+       width=20,   ## do not change
+       height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
+       units='in', ## do not change
+       dpi=72)     ## do not change
 
 ## Line plot
 dg = economics_long
@@ -92,12 +92,12 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## A square image is often preferred, so when in doubt, keep height at 20.
-# ggsave(filename='Example Line Plot.jpg',
-#        plot=g + theme_sv(type='line', base_size=36),
-#        width=20,   ## do not change
-#        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
-#        units='in', ## do not change
-#        dpi=72)     ## do not change
+ggsave(filename='Example Line Plot.jpg',
+       plot=g + theme_sv(type='line', base_size=36),
+       width=20,   ## do not change
+       height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
+       units='in', ## do not change
+       dpi=72)     ## do not change
 
 
 ## Histogram example
@@ -117,12 +117,12 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## A square image is often preferred, so when in doubt, keep height at 20.
-# ggsave(filename='Example Histogram.jpg',
-#        plot = g + theme_sv(type='hist', base_size=36),
-#        width=20,   ## do not change
-#        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
-#        units='in', ## do not change
-#        dpi=72)     ## do not change
+ggsave(filename='Example Histogram.jpg',
+       plot = g + theme_sv(type='hist', base_size=36),
+       width=20,   ## do not change
+       height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
+       units='in', ## do not change
+       dpi=72)     ## do not change
 
 ## Bar plot example
 dg = mtcars \%>\%
@@ -149,12 +149,12 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## A square image is often preferred, so when in doubt, keep height at 20.
-# ggsave(filename='Example Bar Plot.jpg',
-#        plot = g + theme_sv(type='bar', base_size=36),
-#        width=20,   ## do not change
-#        height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
-#        units='in', ## do not change
-#        dpi=72)     ## do not change
+ggsave(filename='Example Bar Plot.jpg',
+       plot = g + theme_sv(type='bar', base_size=36),
+       width=20,   ## do not change
+       height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
+       units='in', ## do not change
+       dpi=72)     ## do not change
 
 ## Grid plot example
 dg = airquality \%>\%
@@ -187,12 +187,12 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## When in doubt, choose height so that the tiles are square
-# ggsave(filename='Example Grid Plot.jpg',
-#        plot=g + theme_sv(type='grid', base_size=36),
-#        width=20,   ## do not change
-#        height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
-#        units='in', ## do not change
-#        dpi=72)     ## do not change
+ggsave(filename='Example Grid Plot.jpg',
+       plot=g + theme_sv(type='grid', base_size=36),
+       width=20,   ## do not change
+       height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
+       units='in', ## do not change
+       dpi=72)     ## do not change
 
 
 ## Faceting example
@@ -219,11 +219,11 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## Square images are often preferred, so when in doubt, choose height so that each subplot is square.
-# ggsave(filename='Example Plot with Faceting.jpg',
-#        plot=g + theme_sv(type='scatter', base_size=36, facet=T),
-#        width=20,   ## do not change
-#        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
-#        units='in', ## do not change
-#        dpi=72)     ## do not change
+ggsave(filename='Example Plot with Faceting.jpg',
+       plot=g + theme_sv(type='scatter', base_size=36, facet=T),
+       width=20,   ## do not change
+       height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
+       units='in', ## do not change
+       dpi=72)     ## do not change
 
 }
