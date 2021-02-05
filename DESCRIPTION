@@ -1,0 +1,14 @@
+Package: themesv
+Type: Package
+Title: A ggplot theme
+Version: 0.1.0
+Author: Brian Macdonald
+Maintainer: Brian Macdonald <tbd@tbd.com>
+Description: A ggplot theme
+License: TBD TBD TBD TBD TBD TBD TBD
+Depends:
+    tidyverse,
+    scales
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1

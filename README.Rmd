@@ -1,0 +1,63 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+library(knitr)
+```
+# themesv
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The package `themesv` contains a ggplot theme theme_sv for making uniformly formatted viz in the SCORE network
+
+## Installation
+
+You can install the GitHub version of themesv  with:
+
+``` r
+install_github("bmacGTPM/themesv")
+```
+
+## Example Figures 
+See the help file `?theme_sv` for code that generates these figures.
+
+
+## Scatter plot example
+```{r  out.width = "60%", echo=F}
+include_graphics('Example Scatter Plot.jpg') 
+```
+
+## Line plot example
+```{r  out.width = "60%", echo=F}
+include_graphics('Example Line Plot.jpg') 
+```
+
+## Histogram example
+```{r  out.width = "60%", echo=F}
+include_graphics('Example Histogram.jpg') 
+```
+
+## Bar plot example
+```{r  out.width = "60%", echo=F}
+include_graphics('Example Bar Plot.jpg') 
+```
+
+## Grid plot example
+```{r  out.width = "60%", echo=F}
+include_graphics('Example Grid Plot.jpg') 
+```
+
+## Faceting example
+```{r  out.width = "60%", echo=F}
+include_graphics('Example Plot with Faceting.jpg') 
+```
