@@ -13,19 +13,19 @@ knitr::opts_chunk$set(
 )
 library(knitr)
 ```
-# themesv
+# themesn
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The package `themesv` contains a `ggplot` theme `theme_sv` for making uniformly formatted viz in the SCORE network
+The package `themesn` contains a `ggplot` theme `theme_sn` for making uniformly formatted viz. Used by the SCORE network and elsewhere.
 
 ## Installation
 
-You can install the GitHub version of `themesv` with:
+You can install the GitHub version of `themesn` with:
 
 ``` r
-install_github("bmacGTPM/themesv")
+install_github("bmacGTPM/themesn")
 ```
 
 If you don't have a Personal Access Token set up yet, you'll have to 
@@ -46,7 +46,7 @@ options(download.file.method = 'libcurl')
 ```
 
 ## Example Figures 
-See the help file `?theme_sv` for code that generates these figures.
+See the help file `?theme_sn` for code that generates these figures.
 
 
 ## Scatter plot example

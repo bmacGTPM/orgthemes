@@ -11,9 +11,9 @@ svbackgray    = rgb(240, 240, 240, max=255) ## very light gray for image backgro
 svblue        = rgb(  5, 140, 200, max=255) ## blue for highlighted data
 svlightblue   = rgb(130, 180, 210, max=255) ## blue for background data
 
-d.pal = c(svred, svblue, svtextgray,  svlightred, svlightblue)
-scale_colour_discrete <- function(...) scale_color_manual(values=d.pal)
-scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
+default.pal = c(svred, svblue, svtextgray,  svlightred, svlightblue)
+scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
+scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 
 
 #' A ggplot theme
@@ -33,9 +33,9 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' library(scales)
 #'
 #' ## Change the default color palette
-#' d.pal = c(svred, svblue, svtextgray,  svlightred, svlightblue)
-#' scale_colour_discrete <- function(...) scale_color_manual(values=d.pal)
-#' scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
+#' default.pal = c(svred, svblue, svtextgray,  svlightred, svlightblue)
+#' scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
+#' scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'
 #'
 #' ## Scatter plot example
@@ -49,14 +49,14 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #'        y = 'Vertical Axis Label in Upper Lower')+
 #'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, expand = c(0,0))+
 #'   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, expand = c(0,0))+
-#'   theme_sv(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
+#'   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
 #' print(g)
 #'
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
 #' ggsave(filename='Example Scatter Plot.jpg',
-#'        plot=g + theme_sv(type='scatter', base_size=36),
+#'        plot=g + theme_sn(type='scatter', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
@@ -74,7 +74,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #'              y = 'Vertical Axis Label in Upper Lower')+  ## Required.
 #'  scale_x_date(      expand = expansion(mult=c(0,0)))+ ## mult=c(0,0) is usually required.
 #'  scale_y_continuous(expand = expansion(mult=c(0,0)), limits=c(0,1), breaks=c(0, .5, 1))+ ## Required
-#'  theme_sv(type='line', base_size=36/3) ## Use 36/3=12 or smaller in RStudio, use 36 to save as image
+#'  theme_sn(type='line', base_size=36/3) ## Use 36/3=12 or smaller in RStudio, use 36 to save as image
 #'
 #' print(g)
 #'
@@ -87,7 +87,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
 #' ggsave(filename='Example Line Plot.jpg',
-#'        plot=g + theme_sv(type='line', base_size=36),
+#'        plot=g + theme_sn(type='line', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
@@ -104,7 +104,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #'          x = 'Horizontal Axis Label in Upper Lower', ## Required.
 #'          y = 'Vertical Axis Label in Upper Lower')+  ## Required.
 #'   scale_y_continuous(expand = expansion(mult=c(0,0.0), add=c(0,0)))+
-#'   theme_sv(type='hist', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
+#'   theme_sn(type='hist', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
 #'
 #' print(g)
 #'
@@ -112,7 +112,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
 #' ggsave(filename='Example Histogram.jpg',
-#'        plot = g + theme_sv(type='hist', base_size=36),
+#'        plot = g + theme_sn(type='hist', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
@@ -135,8 +135,8 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #'          caption = "Optional caption, giving additional information", ## Optional.
 #'          x = 'Horizontal Axis Label in Upper Lower', ## Optional. If used, use Upper Lower.
 #'          y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
-#'   scale_x_continuous(expand = expansion(mult=c(0,0.0), add=c(0,0)), limits=c(0,35), breaks=c(0,10,20,30))+ ## add expansion or change limits so the text fits
-#'   theme_sv(type='bar', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
+#'   scale_x_continuous(expand = expansion(mult=c(0,0.0), add=c(0,0)), limits=c(0,35))+ ## add expansion or change limits so the text fits
+#'   theme_sn(type='bar', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
 #'
 #' print(g)
 #'
@@ -144,7 +144,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
 #' ggsave(filename='Example Bar Plot.jpg',
-#'        plot = g + theme_sv(type='bar', base_size=36),
+#'        plot = g + theme_sn(type='bar', base_size=36),
 #'        width=20,   ## do not change
 #'        height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
@@ -173,7 +173,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #'   geom_hline(yintercept=1:(length(unique(dg$Month   ))+1)-.5, color=svdarkgray, size=0.2)+ # horiz lines between each square
 #'   scale_x_continuous(expand = c(0, 0), position='top', breaks=seq(2,30,by=2))+
 #'   scale_y_discrete(expand = c(0, 0)) +
-#'   theme_sv(type='grid', base_size=36/3) ## use 16 or 12 to show in RStudio, use 36 to save as image
+#'   theme_sn(type='grid', base_size=36/3) ## use 16 or 12 to show in RStudio, use 36 to save as image
 #'
 #' print(g)
 #'
@@ -182,7 +182,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## When in doubt, choose height so that the tiles are square
 #' ggsave(filename='Example Grid Plot.jpg',
-#'        plot=g + theme_sv(type='grid', base_size=36),
+#'        plot=g + theme_sn(type='grid', base_size=36),
 #'        width=20,   ## do not change
 #'        height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
 #'        units='in', ## do not change
@@ -204,25 +204,25 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=d.pal)
 #'        y = 'Vertical Axis Label in Upper Lower')+
 #'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, expand = c(0,0))+
 #'   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, expand = c(0,0))+
-#'   theme_sv(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
+#'   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
 #' print(g)
 #' g = g +
 #'   facet_wrap(~cyl, nrow=1) +
-#'   theme_sv(type='scatter', base_size=36/3, facet=T)
+#'   theme_sn(type='scatter', base_size=36/3, facet=T)
 #' print(g)
 #'
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## Square images are often preferred, so when in doubt, choose height so that each subplot is square.
 #' ggsave(filename='Example Plot with Faceting.jpg',
-#'        plot=g + theme_sv(type='scatter', base_size=36, facet=T),
+#'        plot=g + theme_sn(type='scatter', base_size=36, facet=T),
 #'        width=20,   ## do not change
 #'        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
 #'        units='in', ## do not change
 #'        dpi=72)     ## do not change
 #'
 
-theme_sv <- function (type='line',
+theme_sn <- function (type='line',
                       base_size = 36/3,
                       base_family = "sans",
                       base_line_size=base_size*.35/36*3,
@@ -234,7 +234,8 @@ theme_sv <- function (type='line',
   px <- 1/1440*20*base_size/36 ## Number of inches in one pixel. Assumes 72dpi and 20x20 image
 
   ## default geom settings
-  ## for some reason geom_text and theme define font sizes differently.  Use the 0.35 conversion for points to mm here for geom_text
+  ## Use the 0.35 conversion for points to mm here for geom_text.
+  ## Necessary because geom_text and themes define font sizes differently.
   update_geom_defaults("point", list(size=  8*base_size/36, color=svtextgray))
   update_geom_defaults("line" , list(size=  3*base_size/36, color=svtextgray))
   update_geom_defaults("text" , list(size=.35*base_size   , color=svtextgray, family='sans'))
@@ -304,7 +305,7 @@ theme_sv <- function (type='line',
              legend.key.width  = NULL,
              legend.text       = element_text(size = base_size, margin = margin(0,50*px, 0, 0, 'in')),
              legend.text.align = 0,
-             legend.title      = element_blank(), #element_text(hjust = 0),
+             legend.title      = element_blank(),
              legend.title.align= NULL,
              legend.position   = "top",
              legend.direction  = NULL,
@@ -313,19 +314,17 @@ theme_sv <- function (type='line',
              legend.box.just       = NULL,
              legend.box.margin     = margin(0, 0, 50*px, -140*px, "in"),
              legend.box.background = element_blank(),
-             legend.box.spacing    = NULL, #unit(50*px, "pt"),
-             #panel.background = element_rect(fill = "white", colour = NA, size=1),
-             #panel.border = element_rect(fill = NA, colour = "grey20", size=1),
+             legend.box.spacing    = NULL,
              panel.background = element_rect(fill=svbackgray, color=NA),
              panel.border     = element_blank(),
              panel.spacing = unit(50*px, "in"),
              panel.spacing.x = NULL,
              panel.spacing.y = NULL,
-             panel.grid         = NULL, #element_blank(), ## default is to have no grid lines
+             panel.grid         = NULL,
              panel.grid.major   = NULL,
              panel.grid.minor   = element_blank(),
              panel.grid.major.x = element_blank(),
-             panel.grid.major.y = element_line(colour = svlightgray), ## add only horizontal major gridlines
+             panel.grid.major.y = element_line(colour = svlightgray),
              panel.grid.minor.x = NULL,
              panel.grid.minor.y = NULL,
              panel.ontop        = FALSE,
@@ -341,7 +340,7 @@ theme_sv <- function (type='line',
                                   r = 50*px,
                                   b = 50*px,
                                   l = 50*px, unit='in'),
-             strip.background   = element_rect(color=svtextgray, fill=svlightgray),
+             strip.background   = NULL, #element_rect(color=svtextgray, fill=svlightgray), ## don't show unless facet=T
              strip.background.x = NULL,
              strip.background.y = NULL,
              strip.placement    = "outside",
@@ -373,7 +372,8 @@ theme_sv <- function (type='line',
                                       axis.title.x.top   = element_text(margin = margin(t = -6*px, b = 30*px, unit='in'), vjust = 0),
                                       panel.grid.major = element_blank())}
 
-  if(facet==T       ){th = th + theme(panel.border = element_rect(color=svtextgray, fill=NA))}
+  if(facet==T       ){th = th + theme(panel.border = element_rect(color=svtextgray, fill=NA),
+                                      strip.background   = element_rect(color=svtextgray, fill=svlightgray))}
 
   return(th)
 }
