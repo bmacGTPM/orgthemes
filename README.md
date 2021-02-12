@@ -7,8 +7,9 @@
 
 <!-- badges: end -->
 
-The package `themesn` contains a `ggplot` theme `theme_sn` for making
-uniformly formatted viz. Used by the SCORE network and elsewhere.
+The package `themesn` contains a `ggplot` theme `theme_sn` for creating
+data journalism-style data visualizations with color palettes and
+formatting similar to those used by BBC, NY Times, and ESPN.
 
 ## Installation
 
