@@ -18,19 +18,6 @@ You can install the GitHub version of `themesn` with:
 install_github("bmacGTPM/themesn")
 ```
 
-If you don’t have a Personal Access Token set up yet, you’ll have to
-
-  - Go to <https://github.com/settings/tokens>
-  - Click Generate New Token, and
-  - Copy that long string of letters and numbers to this command in R
-
-<!-- end list -->
-
-``` r
-Sys.setenv(GITHUB_PAT='YourLongListOfLettersAndNumbers')
-Sys.getenv() ## check
-```
-
 If you get an error about download method, try changing this option
 before installing.
 
