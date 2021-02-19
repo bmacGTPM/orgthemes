@@ -16,7 +16,7 @@ formatting similar to those used by BBC, NY Times, and ESPN.
 You can install the GitHub version of `themesn` with:
 
 ``` r
-install_github("bmacGTPM/themesn")
+devtools::install_github("bmacGTPM/themesn")
 ```
 
 If you get an error about download method, try changing this option
