@@ -25,7 +25,7 @@ The package `themesn` contains a `ggplot` theme `theme_sn` for creating data jou
 You can install the GitHub version of `themesn` with:
 
 ``` r
-install_github("bmacGTPM/themesn")
+devtools::install_github("bmacGTPM/themesn")
 ```
 
 If you get an error about download method, try changing this option before installing. 
