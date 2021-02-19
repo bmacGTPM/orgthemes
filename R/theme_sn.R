@@ -1,17 +1,17 @@
 library(tidyverse)
 library(scales)
 
-svred         = rgb(200,  20,  40, max=255) ## red for highlighted data
-svlightred    = rgb(230, 140, 140, max=255) ## red for background data
-svdarkgray    = rgb( 30,  30,  30, max=255) ## gray for highlighted data (dark)
-svmediumgray  = rgb(135, 135, 135, max=255) ## medium gray for subtitle and caption
-svlightgray   = rgb(210, 210, 210, max=255) ## gray for background data
-svtextgray    = rgb(100, 100, 100, max=255) ## dark gray for text
-svbackgray    = rgb(240, 240, 240, max=255) ## very light gray for image background
-svblue        = rgb(  5, 140, 200, max=255) ## blue for highlighted data
-svlightblue   = rgb(130, 180, 210, max=255) ## blue for background data
+snred         = rgb(200,  20,  40, max=255) ## red for highlighted data
+snlightred    = rgb(230, 140, 140, max=255) ## red for background data
+sndarkgray    = rgb( 30,  30,  30, max=255) ## gray for highlighted data (dark)
+snmediumgray  = rgb(135, 135, 135, max=255) ## medium gray for subtitle and caption
+snlightgray   = rgb(210, 210, 210, max=255) ## gray for background data
+sntextgray    = rgb(100, 100, 100, max=255) ## dark gray for text
+snbackgray    = rgb(240, 240, 240, max=255) ## very light gray for image background
+snblue        = rgb(  5, 140, 200, max=255) ## blue for highlighted data
+snlightblue   = rgb(130, 180, 210, max=255) ## blue for background data
 
-default.pal = c(svred, svblue, svtextgray,  svlightred, svlightblue)
+default.pal = c(snred, snblue, sntextgray,  snlightred, snlightblue)
 scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
 scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 
@@ -25,7 +25,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #' @param base_line_size base size for line elements. Default is `base_size*.35/36`, and should typically not be changed.
 #' @param base_rect_size base size for rect elements. Default is `base_size*.35/36`, and should typically not be changed.
 #' @param facet Indicates whether or not `facet_wrap` or `facet_grid` are being used for this plot.  The default is `facet=FALSE`.
-#' @return When used in conjunction with ggplot, it returns a plot formatted using the default sv theme.
+#' @return When used in conjunction with ggplot, it returns a plot formatted using the sn theme.
 #' @examples
 #'
 #' ## Load required packages
@@ -33,7 +33,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #' library(scales)
 #'
 #' ## Change the default color palette
-#' default.pal = c(svred, svblue, svtextgray,  svlightred, svlightblue)
+#' default.pal = c(snred, snblue, sntextgray,  snlightred, snlightblue)
 #' scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
 #' scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'
@@ -41,7 +41,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #' ## Scatter plot example
 #' dg = mtcars %>% select(wt, mpg)
 #' g = ggplot(dg, aes(x=wt, y=mpg))+
-#'   geom_point(color=svred)+
+#'   geom_point(color=snred)+
 #'   labs(title = 'Title in Upper Lower',
 #'        subtitle = 'Optional Subtitle In Upper Lower',
 #'        caption = "Optional caption, giving additional information",
@@ -97,7 +97,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #' ## Histogram example
 #' dg = economics %>% filter(date<='2008-01-01')
 #' g  = ggplot(dg, aes(x=unemploy))+
-#'   geom_histogram(fill=svred, color=svbackgray, binwidth=500, ) + ## set a reasonable binwidth
+#'   geom_histogram(fill=snred, color=snbackgray, binwidth=500, ) + ## set a reasonable binwidth
 #'   labs(  title = 'Title in Upper Lower', ## Required.
 #'          subtitle = 'Optional Subtitle in Upper Lower', ## Optional.
 #'          caption = "Optional caption, giving additional information", ## Optional.
@@ -127,8 +127,8 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'          max = 35) ## same number as upper limit below
 #'
 #' g = ggplot(dg, aes(x=mpg, y=cyl))+
-#'   geom_bar(stat='identity', aes(x=max), color=NA, fill=svlightgray, width=0.8)+ ## option full-length gray bars in the background. Use same number as in `limits` below
-#'   geom_bar(stat='identity', fill=svred, color=NA, width=0.8)+ ## the 0.8 increases the gap between bars
+#'   geom_bar(stat='identity', aes(x=max), color=NA, fill=snlightgray, width=0.8)+ ## option full-length gray bars in the background. Use same number as in `limits` below
+#'   geom_bar(stat='identity', fill=snred, color=NA, width=0.8)+ ## the 0.8 increases the gap between bars
 #'   geom_text(aes(label=round(mpg,2)), hjust=-0.1)+ ## optionally, add numbers with reasonable number of digits
 #'   labs(  title = 'Title in Upper Lower', ## Required.
 #'          subtitle = 'Optional Subtitle in Upper Lower', ## Optional.
@@ -160,8 +160,8 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #' g = ggplot(dg, aes(x=Day, y=Month, fill=Temp))+
 #'   #g = ggplot(dg, aes(x=carat, y=color, fill=price))+
 #'   geom_tile(size=0.4, show.legend = F) +
-#'   scale_fill_gradient(low = svbackgray,
-#'                       high = svred,
+#'   scale_fill_gradient(low = snbackgray,
+#'                       high = snred,
 #'                       na.value = 'white',
 #'                       oob=squish) +
 #'   labs(  title = 'Title in Upper Lower', ## Required.
@@ -169,8 +169,8 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'          caption = "Optional caption, giving additional information", ## Optional.
 #'          x = 'Day (Optional Axis Label in Upper Lower)', ## Optional
 #'          y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
-#'   geom_vline(xintercept=1:(length(unique(dg$Day ))+1)-.5, color=svdarkgray, size=0.2)+ # vert  lines
-#'   geom_hline(yintercept=1:(length(unique(dg$Month   ))+1)-.5, color=svdarkgray, size=0.2)+ # horiz lines between each square
+#'   geom_vline(xintercept=1:(length(unique(dg$Day ))+1)-.5, color=sndarkgray, size=0.2)+ # vert  lines
+#'   geom_hline(yintercept=1:(length(unique(dg$Month   ))+1)-.5, color=sndarkgray, size=0.2)+ # horiz lines between each square
 #'   scale_x_continuous(expand = c(0, 0), position='top', breaks=seq(2,30,by=2))+
 #'   scale_y_discrete(expand = c(0, 0)) +
 #'   theme_sn(type='grid', base_size=36/3) ## use 16 or 12 to show in RStudio, use 36 to save as image
@@ -196,7 +196,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'   mutate(cyl = paste0(cyl, '-cylinder'))
 #'
 #' g = ggplot(dg, aes(x=wt, y=mpg))+
-#'   geom_point(color=svred)+
+#'   geom_point(color=snred)+
 #'   labs(title = 'Title in Upper Lower',
 #'        subtitle = 'Optional Subtitle In Upper Lower',
 #'        caption = "Optional caption, giving additional information",
@@ -236,22 +236,22 @@ theme_sn <- function (type='line',
   ## default geom settings
   ## Use the 0.35 conversion for points to mm here for geom_text.
   ## Necessary because geom_text and themes define font sizes differently.
-  update_geom_defaults("point", list(size=  8*base_size/36, color=svtextgray))
-  update_geom_defaults("line" , list(size=  3*base_size/36, color=svtextgray))
-  update_geom_defaults("text" , list(size=.35*base_size   , color=svtextgray, family='sans'))
-  update_geom_defaults("bar"  , list(width=.8             , color=svtextgray))
+  update_geom_defaults("point", list(size=  8*base_size/36, color=sntextgray))
+  update_geom_defaults("line" , list(size=  3*base_size/36, color=sntextgray))
+  update_geom_defaults("text" , list(size=.35*base_size   , color=sntextgray, family='sans'))
+  update_geom_defaults("bar"  , list(width=.8             , color=sntextgray))
 
-  th = theme(line = element_line(colour = svtextgray,
+  th = theme(line = element_line(colour = sntextgray,
                                  size = base_line_size,
                                  linetype = 1,
                                  lineend = "butt"),
-             rect = element_rect(fill = svbackgray,
+             rect = element_rect(fill = snbackgray,
                                  colour = NA,
                                  size = base_rect_size,
                                  linetype = 1),
              text = element_text(family = base_family,
                                  face = "plain",
-                                 colour = svtextgray,
+                                 colour = sntextgray,
                                  size = base_size,
                                  lineheight = 0.9,
                                  hjust = 0.5, vjust = 0.5, angle = 0,
@@ -273,7 +273,7 @@ theme_sn <- function (type='line',
              axis.text.y       = element_text(margin = margin(r = 20*px, unit='in'), hjust = 1),
              axis.text.y.left  = NULL,
              axis.text.y.right = element_text(margin = margin(l = 20*px, unit='in'), hjust = 0),
-             axis.ticks = element_line(colour = svtextgray),
+             axis.ticks = element_line(colour = sntextgray),
              axis.ticks.x        = NULL,
              axis.ticks.x.top    = NULL,
              axis.ticks.x.bottom = NULL,
@@ -315,7 +315,7 @@ theme_sn <- function (type='line',
              legend.box.margin     = margin(0, 0, 50*px, -140*px, "in"),
              legend.box.background = element_blank(),
              legend.box.spacing    = NULL,
-             panel.background = element_rect(fill=svbackgray, color=NA),
+             panel.background = element_rect(fill=snbackgray, color=NA),
              panel.border     = element_blank(),
              panel.spacing = unit(50*px, "in"),
              panel.spacing.x = NULL,
@@ -324,15 +324,15 @@ theme_sn <- function (type='line',
              panel.grid.major   = NULL,
              panel.grid.minor   = element_blank(),
              panel.grid.major.x = element_blank(),
-             panel.grid.major.y = element_line(colour = svlightgray),
+             panel.grid.major.y = element_line(colour = snlightgray),
              panel.grid.minor.x = NULL,
              panel.grid.minor.y = NULL,
              panel.ontop        = FALSE,
              plot.background = element_rect(),
-             plot.title    = element_text(size = 50/36*base_size, hjust = 0, vjust = 1, margin = margin(0,0,b = 70*px, 0, unit='in'), color=svdarkgray, face='bold'),
+             plot.title    = element_text(size = 50/36*base_size, hjust = 0, vjust = 1, margin = margin(0,0,b = 70*px, 0, unit='in'), color=sndarkgray, face='bold'),
              plot.title.position = 'plot',
-             plot.subtitle = element_text(size = 42/36*base_size, hjust = 0, vjust = 1, margin = margin(-40*px,0,b = 70*px, 50*px, unit='in'), color=svmediumgray), ## black is not an option
-             plot.caption  = element_text(size = 33/36*base_size, hjust = 0, vjust = 1, margin = margin(50*px, 0, 0, 0, 'in'), color=svmediumgray),
+             plot.subtitle = element_text(size = 42/36*base_size, hjust = 0, vjust = 1, margin = margin(-40*px,0,b = 70*px, 50*px, unit='in'), color=snmediumgray), ## black is not an option
+             plot.caption  = element_text(size = 33/36*base_size, hjust = 0, vjust = 1, margin = margin(50*px, 0, 0, 0, 'in'), color=snmediumgray),
              plot.caption.position = 'plot',
              plot.tag      = element_text(size =       base_size, hjust = 0.5, vjust = 0.5),
              plot.tag.position = "topleft",
@@ -340,13 +340,13 @@ theme_sn <- function (type='line',
                                   r = 50*px,
                                   b = 50*px,
                                   l = 50*px, unit='in'),
-             strip.background   = NULL, #element_rect(color=svtextgray, fill=svlightgray), ## don't show unless facet=T
+             strip.background   = NULL, #element_rect(color=sntextgray, fill=snlightgray), ## don't show unless facet=T
              strip.background.x = NULL,
              strip.background.y = NULL,
              strip.placement    = "outside",
              strip.placement.x  = NULL,
              strip.placement.y  = NULL,
-             strip.text = element_text(colour = svtextgray, size = base_size,
+             strip.text = element_text(colour = sntextgray, size = base_size,
                                        margin = margin(20*px, 20*px, 20*px, 20*px, unit='in')),
              strip.text.x = NULL,
              strip.text.y = element_text(angle = -90),
@@ -356,8 +356,8 @@ theme_sn <- function (type='line',
              validate = TRUE)
 
   ## Change the base theme based on the type of plot specified by the user.
-  if(type=='scatter'){th = th + theme(panel.grid.major.x = element_line(colour = svlightgray))}
-  if(type=='line'   ){th = th #+ theme(#axis.line.y  = element_blank(), axis.ticks.y = element_line(colour = svlightgray))
+  if(type=='scatter'){th = th + theme(panel.grid.major.x = element_line(colour = snlightgray))}
+  if(type=='line'   ){th = th #+ theme(#axis.line.y  = element_blank(), axis.ticks.y = element_line(colour = snlightgray))
   }
   if(type=='bar'    ){th = th + theme(axis.line  = element_blank(),
                                       axis.ticks = element_blank(),
@@ -372,8 +372,8 @@ theme_sn <- function (type='line',
                                       axis.title.x.top   = element_text(margin = margin(t = -6*px, b = 30*px, unit='in'), vjust = 0),
                                       panel.grid.major = element_blank())}
 
-  if(facet==T       ){th = th + theme(panel.border = element_rect(color=svtextgray, fill=NA),
-                                      strip.background   = element_rect(color=svtextgray, fill=svlightgray))}
+  if(facet==T       ){th = th + theme(panel.border = element_rect(color=sntextgray, fill=NA),
+                                      strip.background   = element_rect(color=sntextgray, fill=snlightgray))}
 
   return(th)
 }
