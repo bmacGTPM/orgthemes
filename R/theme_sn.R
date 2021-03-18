@@ -48,9 +48,9 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'        caption  = "Optional caption, giving additional information",
 #'        x = 'Horizontal Axis Label in Upper Lower',
 #'        y = 'Vertical Axis Label in Upper Lower')+
-#'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, expand = c(0,0))+
-#'   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, expand = c(0,0))+
-#'   coord_cartesian(clip='off')+
+#'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
+#'   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish)+
+#'   coord_cartesian(clip='off', expand=FALSE)+
 #'   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
 #' print(g)
 #'
@@ -75,9 +75,9 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'        caption  = "Optional caption, giving additional information",
 #'               x = 'Horizontal Axis Label in Upper Lower', ## Required.
 #'               y = 'Vertical Axis Label in Upper Lower')+  ## Required.
-#'  scale_x_date(      expand = expansion(mult=c(0,0)))+ ## mult=c(0,0) is usually required.
-#'  scale_y_continuous(expand = expansion(mult=c(0,0)), limits=c(0,1), breaks=c(0, .5, 1))+ ## Required
-#'  coord_cartesian(clip='off')+
+#'  scale_x_date() + ## set limits and breaks. In this case, the defaults are fine.
+#'  scale_y_continuous(limits=c(0,1), breaks=c(0, .5, 1))+ ## Required
+#'  coord_cartesian(clip='off', expand=FALSE)+
 #'  theme_sn(type='line', base_size=36/3) ## Use 36/3=12 or smaller in RStudio, use 36 to save as image
 #'
 #' print(g)
@@ -99,19 +99,19 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'
 #'
 #' ## Histogram example
-#' dg = economics %>% filter(date<='2008-01-01')
-#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
-#' g  = ggplot(dg, aes(x=unemploy))+
-#'   geom_histogram(fill=snred, color=snbackgray, binwidth=500, ) + ## set a reasonable binwidth
-#'   labs(title    = title,
-#'        subtitle = 'Optional Subtitle In Upper Lower',
-#'        caption  = "Optional caption, giving additional information",
-#'        x = 'Horizontal Axis Label in Upper Lower', ## Required.
-#'        y = 'Vertical Axis Label in Upper Lower')+  ## Required.
-#'   scale_y_continuous(expand = expansion(mult=c(0,0.0), add=c(0,0)))+
-#'   theme_sn(type='hist', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
-#'
-#' print(g)
+# dg = economics %>% filter(date<='2008-01-01')
+# title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+# g  = ggplot(dg, aes(x=unemploy))+
+#   geom_histogram(fill=snred, color=snbackgray, binwidth=500) + ## set a reasonable binwidth
+#   labs(title    = title,
+#        subtitle = 'Optional Subtitle In Upper Lower',
+#        caption  = "Optional caption, giving additional information",
+#        x = 'Horizontal Axis Label in Upper Lower', ## Required.
+#        y = 'Count')+  ## Usually don't need to change. Can use 'Frequency' or 'Density'
+#   scale_y_continuous(expand = c(0,0))+
+#   theme_sn(type='hist', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
+#
+# print(g)
 #'
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
@@ -140,7 +140,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'        caption  = "Optional caption, giving additional information",
 #'        x = 'Horizontal Axis Label in Upper Lower', ## Optional. If used, use Upper Lower.
 #'        y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
-#'   scale_x_continuous(expand = expansion(mult=c(0,0.0), add=c(0,0)), limits=c(0,35))+ ## add expansion or change limits so the text fits
+#'   scale_x_continuous(limits=c(0,35))+ ## add expansion or change limits so the text fits
 #'   theme_sn(type='bar', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
 #'
 #' print(g)
@@ -207,8 +207,9 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'        caption  = "Optional caption, giving additional information",
 #'        x = 'Horizontal Axis Label in Upper Lower',
 #'        y = 'Vertical Axis Label in Upper Lower')+
-#'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, expand = c(0,0))+
-#'   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, expand = c(0,0))+
+#'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
+#'   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish)+
+#'   coord_cartesian(clip='off', expand=FALSE)+
 #'   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
 #' print(g)
 #'
