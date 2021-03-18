@@ -67,3 +67,40 @@ include_graphics('Example Grid Plot.jpg')
 ```{r  out.width = "60%", echo=F}
 include_graphics('Example Plot with Faceting.jpg') 
 ```
+
+## Default settings
+This theme changes your default ggplot settings using 
+
+```{r}
+snred         = rgb(200,  20,  40, max=255) ## red for highlighted data
+snlightred    = rgb(230, 140, 140, max=255) ## red for background data
+sndarkgray    = rgb( 30,  30,  30, max=255) ## gray for highlighted data (dark)
+snmediumgray  = rgb(135, 135, 135, max=255) ## medium gray for subtitle and caption
+snlightgray   = rgb(210, 210, 210, max=255) ## gray for background data
+sntextgray    = rgb(100, 100, 100, max=255) ## dark gray for text
+snbackgray    = rgb(240, 240, 240, max=255) ## very light gray for image background
+snblue        = rgb(  5, 140, 200, max=255) ## blue for highlighted data
+snlightblue   = rgb(130, 180, 210, max=255) ## blue for background data
+
+default.pal = c(snred, snblue, sntextgray,  snlightred, snlightblue)
+scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
+scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
+
+update_geom_defaults("point" , list(size=  8*base_size/36, color=sntextgray))
+update_geom_defaults("line"  , list(size=  3*base_size/36, color=sntextgray))
+update_geom_defaults("smooth", list(size=  3*base_size/36, color=sntextgray))
+update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray))
+update_geom_defaults("bar"   , list(width=.8             , color=sntextgray))
+```
+
+To change them back, restart R, or use 
+```{r}
+scale_colour_discrete <- function(...) scale_color_hue()
+scale_fill_discrete   <- function(...) scale_fill_hue()
+update_geom_defaults("point" , list(size=  1.5 , color='black'))
+update_geom_defaults("line"  , list(size=  1.0 , color='black'))
+update_geom_defaults("smooth", list(size=  1.0 , color="#3366FF"))
+update_geom_defaults("text"  , list(size=  3.88, color='black'), family="sans")
+update_geom_defaults("bar"   , list(width=.9   , color="grey35"))
+```
+

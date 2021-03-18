@@ -242,7 +242,7 @@ theme_sn <- function (type='line',
   update_geom_defaults("point" , list(size=  8*base_size/36, color=sntextgray))
   update_geom_defaults("line"  , list(size=  3*base_size/36, color=sntextgray))
   update_geom_defaults("smooth", list(size=  3*base_size/36, color=sntextgray))
-  update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray, family='sans'))
+  update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray), family=base_family)
   update_geom_defaults("bar"   , list(width=.8             , color=sntextgray))
 
 
