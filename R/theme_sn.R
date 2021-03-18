@@ -238,10 +238,13 @@ theme_sn <- function (type='line',
   ## default geom settings
   ## Use the 0.35 conversion for points to mm here for geom_text.
   ## Necessary because geom_text and themes define font sizes differently.
-  update_geom_defaults("point", list(size=  8*base_size/36, color=sntextgray))
-  update_geom_defaults("line" , list(size=  3*base_size/36, color=sntextgray))
-  update_geom_defaults("text" , list(size=.35*base_size   , color=sntextgray, family='sans'))
-  update_geom_defaults("bar"  , list(width=.8             , color=sntextgray))
+  ## save default settings, then update defaults, then return to old settings at the end of the
+  update_geom_defaults("point" , list(size=  8*base_size/36, color=sntextgray))
+  update_geom_defaults("line"  , list(size=  3*base_size/36, color=sntextgray))
+  update_geom_defaults("smooth", list(size=  3*base_size/36, color=sntextgray))
+  update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray, family='sans'))
+  update_geom_defaults("bar"   , list(width=.8             , color=sntextgray))
+
 
   th = theme(line = element_line(colour = sntextgray,
                                  size = base_line_size,
