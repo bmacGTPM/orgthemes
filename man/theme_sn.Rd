@@ -55,6 +55,7 @@ g = ggplot(dg, aes(x=wt, y=mpg))+
        y = 'Vertical Axis Label in Upper Lower')+
   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, expand = c(0,0))+
   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, expand = c(0,0))+
+  coord_cartesian(clip='off')+
   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
 print(g)
 
@@ -80,6 +81,7 @@ g = ggplot(dg, aes(x=date, y=value01, color=variable))+
              y = 'Vertical Axis Label in Upper Lower')+  ## Required.
  scale_x_date(      expand = expansion(mult=c(0,0)))+ ## mult=c(0,0) is usually required.
  scale_y_continuous(expand = expansion(mult=c(0,0)), limits=c(0,1), breaks=c(0, .5, 1))+ ## Required
+ coord_cartesian(clip='off')+
  theme_sn(type='line', base_size=36/3) ## Use 36/3=12 or smaller in RStudio, use 36 to save as image
 
 print(g)
