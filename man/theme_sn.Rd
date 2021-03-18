@@ -46,9 +46,10 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 
 ## Scatter plot example
 dg = mtcars \%>\% select(wt, mpg)
+title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
 g = ggplot(dg, aes(x=wt, y=mpg))+
   geom_point(color=snred)+
-  labs(title = 'Title in Upper Lower',
+  labs(title = title,
        subtitle = 'Optional Subtitle In Upper Lower',
        caption = "Optional caption, giving additional information",
        x = 'Horizontal Axis Label in Upper Lower',
@@ -62,7 +63,7 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## A square image is often preferred, so when in doubt, keep height at 20.
-ggsave(filename='Example Scatter Plot.jpg',
+ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
        plot=g + theme_sn(type='scatter', base_size=36),
        width=20,   ## do not change
        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
