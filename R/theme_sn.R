@@ -1,6 +1,7 @@
 library(tidyverse)
 library(scales)
 
+## define colors
 snred         = rgb(200,  20,  40, max=255) ## red for highlighted data
 snlightred    = rgb(230, 140, 140, max=255) ## red for background data
 sndarkgray    = rgb( 30,  30,  30, max=255) ## gray for highlighted data (dark)
@@ -10,11 +11,34 @@ sntextgray    = rgb(100, 100, 100, max=255) ## dark gray for text
 snbackgray    = rgb(240, 240, 240, max=255) ## very light gray for image background
 snblue        = rgb(  5, 140, 200, max=255) ## blue for highlighted data
 snlightblue   = rgb(130, 180, 210, max=255) ## blue for background data
-
 default.pal = c(snred, snblue, sntextgray,  snlightred, snlightblue)
+
+## CMU colors
+## Copied images here https://www.cmu.edu/brand/brand-guidelines/visual-identity/colors.html
+## And opened in MSPaint, color picker, Edit Colors.
+## The CMYK values look wrong on the website.
+## I should maybe move these elsewhere at some point.
+cmured        = rgb(196,  18,  48, max=255)
+cmumediumgray = rgb(110, 110, 110, max=255)
+cmulightgray  = rgb(190, 190, 190, max=255)
+cmublue       = rgb(  4,  54, 115, max=255)
+cmulightblue  = rgb(  0, 139, 192, max=255)
+cmurose       = rgb(239,  58,  71, max=255)
+cmugold       = rgb(253, 181,  21, max=255)
+cmugreen      = rgb(  0, 150,  71, max=255)
+cmuteal       = rgb(  0, 143, 145, max=255)
+cmu.pal = c(cmured, cmublue, cmumediumgray, cmulightgray, cmulightblue, cmugold, cmugreen, cmurose, cmuteal)
+
+## colorblind friendly color palette
+## from https://jacksonlab.agronomy.wisc.edu/2016/05/23/15-level-colorblind-friendly-palette/
+cb14 =  c("#000000","#004949","#009292","#ff6db6","#ffb6db",
+            "#490092","#006ddb","#b66dff","#6db6ff","#b6dbff",
+            "#920000","#924900","#db6d00","#24ff24","#ffff6d")
+cb14[15] = 'lightgray' ## replace the yellow with gray, since yellow is almost impossible to see.
+cb14 = cb14[-2] ## remove this since it is so close to the next one
+
 scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
 scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
-
 
 #' A ggplot theme
 #'
@@ -25,6 +49,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #' @param base_line_size base size for line elements. Default is `base_size*.35/36`, and should typically not be changed.
 #' @param base_rect_size base size for rect elements. Default is `base_size*.35/36`, and should typically not be changed.
 #' @param facet Indicates whether or not `facet_wrap` or `facet_grid` are being used for this plot.  The default is `facet=FALSE`.
+#' @param colors Choose the color palette. The default, colors='default", is reds, blues and grays commonly used in journalism.  'cb14' is a colorblind friendly palette with 14 colors, and 'cmu' is reds, blues, grays
 #' @return When used in conjunction with ggplot, it returns a plot formatted using the sn theme.
 #' @examples
 #'
@@ -67,7 +92,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #' ## Line plot
 #' dg = economics_long
 #' dg = dg %>% mutate(variable = toupper(variable)) ## avoid using all lowercase letters in a legend
-#' #' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
 #' g = ggplot(dg, aes(x=date, y=value01, color=variable))+
 #'  geom_line()+
 #'   labs(title    = title,
@@ -234,7 +259,8 @@ theme_sn <- function (type='line',
                       base_family = "sans",
                       base_line_size=base_size*.35/36*3,
                       base_rect_size=base_size*.35/36,
-                      facet=F){
+                      facet=F,
+                      colors = 'default'){
 
 
   base_size <- base_size
@@ -250,6 +276,12 @@ theme_sn <- function (type='line',
   update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray, family=base_family))
   update_geom_defaults("bar"   , list(width=.8             , color=sntextgray))
 
+  ## define colors if needed
+  if(colors == 'default'){pal = default.pal}
+  if(colors == 'cb14'   ){pal =      cb.pal}
+  if(colors == 'cmu'    ){pal =     cmu.pal}
+  scale_colour_discrete <- function(...) scale_color_manual(values=pal)
+  scale_fill_discrete   <- function(...) scale_fill_manual( values=pal)
 
   th = theme(line = element_line(colour = sntextgray,
                                  size = base_line_size,

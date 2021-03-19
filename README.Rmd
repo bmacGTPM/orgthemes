@@ -104,3 +104,9 @@ update_geom_defaults("text"  , list(size=  3.88, color='black'), family="sans")
 update_geom_defaults("bar"   , list(width=.9   , color="grey35"))
 ```
 
+If more than 5-6 colors are needed, this 14-color colorblind friendly palette `cb14` can be used by adding `+ scale_color_manual(values=cb14)` or `+ scale_fill_manual( values=cb14)` to a plot. 
+
+
+
+
+

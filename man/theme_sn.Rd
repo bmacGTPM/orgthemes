@@ -10,7 +10,8 @@ theme_sn(
   base_family = "sans",
   base_line_size = base_size * 0.35/36 * 3,
   base_rect_size = base_size * 0.35/36,
-  facet = F
+  facet = F,
+  colors = "default"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ theme_sn(
 \item{base_rect_size}{base size for rect elements. Default is `base_size*.35/36`, and should typically not be changed.}
 
 \item{facet}{Indicates whether or not `facet_wrap` or `facet_grid` are being used for this plot.  The default is `facet=FALSE`.}
+
+\item{colors}{Choose the color palette. The default, colors='default", is reds, blues and grays commonly used in journalism.  'cb14' is a colorblind friendly palette with 14 colors, and 'cmu' is reds, blues, grays}
 }
 \value{
 When used in conjunction with ggplot, it returns a plot formatted using the sn theme.
@@ -49,14 +52,14 @@ dg = mtcars \%>\% select(wt, mpg)
 title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
 g = ggplot(dg, aes(x=wt, y=mpg))+
   geom_point(color=snred)+
-  labs(title = title,
+  labs(title    = title,
        subtitle = 'Optional Subtitle In Upper Lower',
-       caption = "Optional caption, giving additional information",
+       caption  = "Optional caption, giving additional information",
        x = 'Horizontal Axis Label in Upper Lower',
        y = 'Vertical Axis Label in Upper Lower')+
-  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, expand = c(0,0))+
-  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, expand = c(0,0))+
-  coord_cartesian(clip='off')+
+  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
+  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish)+
+  coord_cartesian(clip='off', expand=FALSE)+
   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
 print(g)
 
@@ -73,16 +76,17 @@ ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called '
 ## Line plot
 dg = economics_long
 dg = dg \%>\% mutate(variable = toupper(variable)) ## avoid using all lowercase letters in a legend
+#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
 g = ggplot(dg, aes(x=date, y=value01, color=variable))+
  geom_line()+
- labs(   title = 'Title in Upper Lower', ## Required.
-      subtitle = 'Optional Subtitle in Upper Lower', ## Optional.
-       caption = "Optional caption, giving additional information", ## Optional.
-             x = 'Horizontal Axis Label in Upper Lower', ## Required.
-             y = 'Vertical Axis Label in Upper Lower')+  ## Required.
- scale_x_date(      expand = expansion(mult=c(0,0)))+ ## mult=c(0,0) is usually required.
- scale_y_continuous(expand = expansion(mult=c(0,0)), limits=c(0,1), breaks=c(0, .5, 1))+ ## Required
- coord_cartesian(clip='off')+
+  labs(title    = title,
+       subtitle = 'Optional Subtitle In Upper Lower',
+       caption  = "Optional caption, giving additional information",
+              x = 'Horizontal Axis Label in Upper Lower', ## Required.
+              y = 'Vertical Axis Label in Upper Lower')+  ## Required.
+ scale_x_date() + ## set limits and breaks. In this case, the defaults are fine.
+ scale_y_continuous(limits=c(0,1), breaks=c(0, .5, 1))+ ## Required
+ coord_cartesian(clip='off', expand=FALSE)+
  theme_sn(type='line', base_size=36/3) ## Use 36/3=12 or smaller in RStudio, use 36 to save as image
 
 print(g)
@@ -95,7 +99,7 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## A square image is often preferred, so when in doubt, keep height at 20.
-ggsave(filename='Example Line Plot.jpg',
+ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
        plot=g + theme_sn(type='line', base_size=36),
        width=20,   ## do not change
        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -104,23 +108,11 @@ ggsave(filename='Example Line Plot.jpg',
 
 
 ## Histogram example
-dg = economics \%>\% filter(date<='2008-01-01')
-g  = ggplot(dg, aes(x=unemploy))+
-  geom_histogram(fill=snred, color=snbackgray, binwidth=500, ) + ## set a reasonable binwidth
-  labs(  title = 'Title in Upper Lower', ## Required.
-         subtitle = 'Optional Subtitle in Upper Lower', ## Optional.
-         caption = "Optional caption, giving additional information", ## Optional.
-         x = 'Horizontal Axis Label in Upper Lower', ## Required.
-         y = 'Vertical Axis Label in Upper Lower')+  ## Required.
-  scale_y_continuous(expand = expansion(mult=c(0,0.0), add=c(0,0)))+
-  theme_sn(type='hist', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
-
-print(g)
 
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## A square image is often preferred, so when in doubt, keep height at 20.
-ggsave(filename='Example Histogram.jpg',
+ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
        plot = g + theme_sn(type='hist', base_size=36),
        width=20,   ## do not change
        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -134,17 +126,17 @@ dg = mtcars \%>\%
   mutate(cyl = paste0(cyl, '-cylinder'), ## so that labels look nicer
          cyl = factor(cyl, levels=c('8-cylinder', '6-cylinder', '4-cylinder')), ## change order of factors
          max = 35) ## same number as upper limit below
-
+title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
 g = ggplot(dg, aes(x=mpg, y=cyl))+
   geom_bar(stat='identity', aes(x=max), color=NA, fill=snlightgray, width=0.8)+ ## option full-length gray bars in the background. Use same number as in `limits` below
   geom_bar(stat='identity', fill=snred, color=NA, width=0.8)+ ## the 0.8 increases the gap between bars
   geom_text(aes(label=round(mpg,2)), hjust=-0.1)+ ## optionally, add numbers with reasonable number of digits
-  labs(  title = 'Title in Upper Lower', ## Required.
-         subtitle = 'Optional Subtitle in Upper Lower', ## Optional.
-         caption = "Optional caption, giving additional information", ## Optional.
-         x = 'Horizontal Axis Label in Upper Lower', ## Optional. If used, use Upper Lower.
-         y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
-  scale_x_continuous(expand = expansion(mult=c(0,0.0), add=c(0,0)), limits=c(0,35))+ ## add expansion or change limits so the text fits
+  labs(title    = title,
+       subtitle = 'Optional Subtitle In Upper Lower',
+       caption  = "Optional caption, giving additional information",
+       x = 'Horizontal Axis Label in Upper Lower', ## Optional. If used, use Upper Lower.
+       y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
+  scale_x_continuous(limits=c(0,35))+ ## add expansion or change limits so the text fits
   theme_sn(type='bar', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
 
 print(g)
@@ -152,7 +144,7 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## A square image is often preferred, so when in doubt, keep height at 20.
-ggsave(filename='Example Bar Plot.jpg',
+ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
        plot = g + theme_sn(type='bar', base_size=36),
        width=20,   ## do not change
        height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -163,8 +155,7 @@ ggsave(filename='Example Bar Plot.jpg',
 dg = airquality \%>\%
   mutate(Month= month.abb[Month],
          Month = factor(Month, levels=rev(month.abb))) # use rev for May at top, Sep at bottom
-
-dg
+title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
 
 g = ggplot(dg, aes(x=Day, y=Month, fill=Temp))+
   #g = ggplot(dg, aes(x=carat, y=color, fill=price))+
@@ -173,11 +164,11 @@ g = ggplot(dg, aes(x=Day, y=Month, fill=Temp))+
                       high = snred,
                       na.value = 'white',
                       oob=squish) +
-  labs(  title = 'Title in Upper Lower', ## Required.
-         subtitle = 'Optional Subtitle in Upper Lower', ## Optional.
-         caption = "Optional caption, giving additional information", ## Optional.
-         x = 'Day (Optional Axis Label in Upper Lower)', ## Optional
-         y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
+  labs(title    = title,
+       subtitle = 'Optional Subtitle In Upper Lower',
+       caption  = "Optional caption, giving additional information",
+       x = 'Day (Optional Axis Label in Upper Lower)', ## Optional
+       y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
   geom_vline(xintercept=1:(length(unique(dg$Day ))+1)-.5, color=sndarkgray, size=0.2)+ # vert  lines
   geom_hline(yintercept=1:(length(unique(dg$Month   ))+1)-.5, color=sndarkgray, size=0.2)+ # horiz lines between each square
   scale_x_continuous(expand = c(0, 0), position='top', breaks=seq(2,30,by=2))+
@@ -190,7 +181,7 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## When in doubt, choose height so that the tiles are square
-ggsave(filename='Example Grid Plot.jpg',
+ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
        plot=g + theme_sn(type='grid', base_size=36),
        width=20,   ## do not change
        height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
@@ -202,18 +193,21 @@ ggsave(filename='Example Grid Plot.jpg',
 dg = mtcars \%>\%
   select(wt, mpg, cyl) \%>\%
   mutate(cyl = paste0(cyl, '-cylinder'))
+title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
 
 g = ggplot(dg, aes(x=wt, y=mpg))+
   geom_point(color=snred)+
-  labs(title = 'Title in Upper Lower',
+  labs(title    = title,
        subtitle = 'Optional Subtitle In Upper Lower',
-       caption = "Optional caption, giving additional information",
+       caption  = "Optional caption, giving additional information",
        x = 'Horizontal Axis Label in Upper Lower',
        y = 'Vertical Axis Label in Upper Lower')+
-  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, expand = c(0,0))+
-  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, expand = c(0,0))+
+  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
+  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish)+
+  coord_cartesian(clip='off', expand=FALSE)+
   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
 print(g)
+
 g = g +
   facet_wrap(~cyl, nrow=1) +
   theme_sn(type='scatter', base_size=36/3, facet=T)
@@ -222,7 +216,7 @@ print(g)
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.
 ## Square images are often preferred, so when in doubt, choose height so that each subplot is square.
-ggsave(filename='Example Plot with Faceting.jpg',
+ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
        plot=g + theme_sn(type='scatter', base_size=36, facet=T),
        width=20,   ## do not change
        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
