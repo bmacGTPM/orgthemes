@@ -37,15 +37,7 @@ A ggplot theme for making uniformly formatted viz in the SCORE network
 }
 \examples{
 
-## Load required packages
-library(tidyverse)
-library(scales)
-
-## Change the default color palette
-default.pal = c(snred, snblue, sntextgray,  snlightred, snlightblue)
-scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
-scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
-
+library(themesn)
 
 ## Scatter plot example
 dg = mtcars \%>\% select(wt, mpg)
@@ -76,7 +68,7 @@ ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called '
 ## Line plot
 dg = economics_long
 dg = dg \%>\% mutate(variable = toupper(variable)) ## avoid using all lowercase letters in a legend
-#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
 g = ggplot(dg, aes(x=date, y=value01, color=variable))+
  geom_line()+
   labs(title    = title,
@@ -108,6 +100,19 @@ ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called '
 
 
 ## Histogram example
+dg = economics \%>\% filter(date<='2008-01-01')
+title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+g  = ggplot(dg, aes(x=unemploy))+
+  geom_histogram(fill=snred, color=snbackgray, binwidth=500) + ## set a reasonable binwidth
+  labs(title    = title,
+       subtitle = 'Optional Subtitle In Upper Lower',
+       caption  = "Optional caption, giving additional information",
+       x = 'Horizontal Axis Label in Upper Lower', ## Required.
+       y = 'Count')+  ## Usually don't need to change. Can use 'Frequency' or 'Density'
+  scale_y_continuous(expand = c(0,0))+
+  theme_sn(type='hist', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
+
+print(g)
 
 ## Use `ggsave` and `base_size=36` when saving an image.
 ## Do not adjust the width. Height can be adjusted if desired.

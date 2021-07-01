@@ -37,9 +37,6 @@ cb14 =  c("#000000","#004949","#009292","#ff6db6","#ffb6db",
 cb14[15] = 'lightgray' ## replace the yellow with gray, since yellow is almost impossible to see.
 cb14 = cb14[-2] ## remove this since it is so close to the next one
 
-scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
-scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
-
 #' A ggplot theme
 #'
 #' A ggplot theme for making uniformly formatted viz in the SCORE network
@@ -53,15 +50,7 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #' @return When used in conjunction with ggplot, it returns a plot formatted using the sn theme.
 #' @examples
 #'
-#' ## Load required packages
-#' library(tidyverse)
-#' library(scales)
-#'
-#' ## Change the default color palette
-#' default.pal = c(snred, snblue, sntextgray,  snlightred, snlightblue)
-#' scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
-#' scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
-#'
+#' library(themesn)
 #'
 #' ## Scatter plot example
 #' dg = mtcars %>% select(wt, mpg)
@@ -124,19 +113,19 @@ scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 #'
 #'
 #' ## Histogram example
-# dg = economics %>% filter(date<='2008-01-01')
-# title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
-# g  = ggplot(dg, aes(x=unemploy))+
-#   geom_histogram(fill=snred, color=snbackgray, binwidth=500) + ## set a reasonable binwidth
-#   labs(title    = title,
-#        subtitle = 'Optional Subtitle In Upper Lower',
-#        caption  = "Optional caption, giving additional information",
-#        x = 'Horizontal Axis Label in Upper Lower', ## Required.
-#        y = 'Count')+  ## Usually don't need to change. Can use 'Frequency' or 'Density'
-#   scale_y_continuous(expand = c(0,0))+
-#   theme_sn(type='hist', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
-#
-# print(g)
+#' dg = economics %>% filter(date<='2008-01-01')
+#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+#' g  = ggplot(dg, aes(x=unemploy))+
+#'   geom_histogram(fill=snred, color=snbackgray, binwidth=500) + ## set a reasonable binwidth
+#'   labs(title    = title,
+#'        subtitle = 'Optional Subtitle In Upper Lower',
+#'        caption  = "Optional caption, giving additional information",
+#'        x = 'Horizontal Axis Label in Upper Lower', ## Required.
+#'        y = 'Count')+  ## Usually don't need to change. Can use 'Frequency' or 'Density'
+#'   scale_y_continuous(expand = c(0,0))+
+#'   theme_sn(type='hist', base_size=36/3) ## use 12 to show in RStudio, use 36 to save as image
+#'
+#' print(g)
 #'
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
@@ -274,14 +263,17 @@ theme_sn <- function (type='line',
   update_geom_defaults("line"  , list(size=  3*base_size/36, color=sntextgray))
   update_geom_defaults("smooth", list(size=  3*base_size/36, color=sntextgray))
   update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray, family=base_family))
-  update_geom_defaults("bar"   , list(width=.8             , color=sntextgray))
+  update_geom_defaults("bar"   , list(                       color=sntextgray)) ## does width even work?
 
   ## define colors if needed
   if(colors == 'default'){pal = default.pal}
   if(colors == 'cb14'   ){pal =      cb.pal}
   if(colors == 'cmu'    ){pal =     cmu.pal}
-  scale_colour_discrete <- function(...) scale_color_manual(values=pal)
-  scale_fill_discrete   <- function(...) scale_fill_manual( values=pal)
+  options(ggplot2.continuous.colour = function() scale_colour_gradient(low=snlightgray, high=snblue)) ## use different blue
+  options(ggplot2.continuous.fill   = function() scale_colour_gradient(low=snlightgray, high=snblue)) ## use different blue
+  options(ggplot2.discrete.colour   = pal)
+  options(ggplot2.discrete.fill     = pal)
+  #options(ggplot2.continuous.size   = function() scale_size_continuous(limits=c(5, 10))) ## don't think this is an option
 
   th = theme(line = element_line(colour = sntextgray,
                                  size = base_line_size,
@@ -420,6 +412,19 @@ theme_sn <- function (type='line',
   return(th)
 }
 
+## CMU theme.  Same as theme_sn but with different colors
+theme_cmu <- function (type='line',
+                       base_size = 36/3,
+                       base_family = "sans",
+                       base_line_size=base_size*.35/36*3,
+                       base_rect_size=base_size*.35/36,
+                       facet=F){
+  theme_sn(type=type,
+           base_size     =base_size,
+           base_family   =base_family,
+           base_line_size=base_line_size,
+           base_rect_size=base_rect_size,
+           facet=facet,
+           colors = 'cmu')
 
-
-
+}
