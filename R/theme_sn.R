@@ -54,12 +54,12 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'
 #' ## Scatter plot example
 #' dg = mtcars %>% select(wt, mpg)
-#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #' g = ggplot(dg, aes(x=wt, y=mpg))+
 #'   geom_point(color=snred)+
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
-#'        caption  = "Optional caption, giving additional information",
+#'        caption  = "Optional caption, giving additional info or twitter handle",
 #'        x = 'Horizontal Axis Label in Upper Lower',
 #'        y = 'Vertical Axis Label in Upper Lower')+
 #'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
@@ -71,7 +71,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
 #'        plot=g + theme_sn(type='scatter', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -81,12 +81,12 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Line plot
 #' dg = economics_long
 #' dg = dg %>% mutate(variable = toupper(variable)) ## avoid using all lowercase letters in a legend
-#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #' g = ggplot(dg, aes(x=date, y=value01, color=variable))+
 #'  geom_line()+
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
-#'        caption  = "Optional caption, giving additional information",
+#'        caption  = "Optional caption, giving additional info or twitter handle",
 #'               x = 'Horizontal Axis Label in Upper Lower', ## Required.
 #'               y = 'Vertical Axis Label in Upper Lower')+  ## Required.
 #'  scale_x_date() + ## set limits and breaks. In this case, the defaults are fine.
@@ -104,7 +104,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
 #'        plot=g + theme_sn(type='line', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -114,12 +114,12 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'
 #' ## Histogram example
 #' dg = economics %>% filter(date<='2008-01-01')
-#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #' g  = ggplot(dg, aes(x=unemploy))+
 #'   geom_histogram(fill=snred, color=snbackgray, binwidth=500) + ## set a reasonable binwidth
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
-#'        caption  = "Optional caption, giving additional information",
+#'        caption  = "Optional caption, giving additional info or twitter handle",
 #'        x = 'Horizontal Axis Label in Upper Lower', ## Required.
 #'        y = 'Count')+  ## Usually don't need to change. Can use 'Frequency' or 'Density'
 #'   scale_y_continuous(expand = c(0,0))+
@@ -130,7 +130,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
 #'        plot = g + theme_sn(type='hist', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -144,14 +144,14 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'   mutate(cyl = paste0(cyl, '-cylinder'), ## so that labels look nicer
 #'          cyl = factor(cyl, levels=c('8-cylinder', '6-cylinder', '4-cylinder')), ## change order of factors
 #'          max = 35) ## same number as upper limit below
-#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #' g = ggplot(dg, aes(x=mpg, y=cyl))+
 #'   geom_bar(stat='identity', aes(x=max), color=NA, fill=snlightgray, width=0.8)+ ## option full-length gray bars in the background. Use same number as in `limits` below
 #'   geom_bar(stat='identity', fill=snred, color=NA, width=0.8)+ ## the 0.8 increases the gap between bars
 #'   geom_text(aes(label=round(mpg,2)), hjust=-0.1)+ ## optionally, add numbers with reasonable number of digits
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
-#'        caption  = "Optional caption, giving additional information",
+#'        caption  = "Optional caption, giving additional info or twitter handle",
 #'        x = 'Horizontal Axis Label in Upper Lower', ## Optional. If used, use Upper Lower.
 #'        y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
 #'   scale_x_continuous(limits=c(0,35))+ ## add expansion or change limits so the text fits
@@ -162,7 +162,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
 #'        plot = g + theme_sn(type='bar', base_size=36),
 #'        width=20,   ## do not change
 #'        height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -173,7 +173,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' dg = airquality %>%
 #'   mutate(Month= month.abb[Month],
 #'          Month = factor(Month, levels=rev(month.abb))) # use rev for May at top, Sep at bottom
-#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #'
 #' g = ggplot(dg, aes(x=Day, y=Month, fill=Temp))+
 #'   #g = ggplot(dg, aes(x=carat, y=color, fill=price))+
@@ -184,7 +184,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'                       oob=squish) +
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
-#'        caption  = "Optional caption, giving additional information",
+#'        caption  = "Optional caption, giving additional info or twitter handle",
 #'        x = 'Day (Optional Axis Label in Upper Lower)', ## Optional
 #'        y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
 #'   geom_vline(xintercept=1:(length(unique(dg$Day ))+1)-.5, color=sndarkgray, size=0.2)+ # vert  lines
@@ -199,7 +199,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## When in doubt, choose height so that the tiles are square
-#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
 #'        plot=g + theme_sn(type='grid', base_size=36),
 #'        width=20,   ## do not change
 #'        height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
@@ -212,13 +212,13 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' dg = mtcars %>%
 #'   select(wt, mpg, cyl) %>%
 #'   mutate(cyl = paste0(cyl, '-cylinder'))
-#' title = 'Title in Upper Lower' ## to be used by ggplot and ggsave
+#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #'
 #' g = ggplot(dg, aes(x=wt, y=mpg))+
 #'   geom_point(color=snred)+
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
-#'        caption  = "Optional caption, giving additional information",
+#'        caption  = "Optional caption, giving additional info or twitter handle",
 #'        x = 'Horizontal Axis Label in Upper Lower',
 #'        y = 'Vertical Axis Label in Upper Lower')+
 #'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
@@ -235,7 +235,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## Square images are often preferred, so when in doubt, choose height so that each subplot is square.
-#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
 #'        plot=g + theme_sn(type='scatter', base_size=36, facet=T),
 #'        width=20,   ## do not change
 #'        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
