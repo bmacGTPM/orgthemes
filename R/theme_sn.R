@@ -124,9 +124,11 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'
 #'
 #' ## Histogram example
-#' dg = economics %>% filter(date<='2008-01-01')
+#' dg = economics %>%
+#'   filter(date<='2008-01-01') %>%
+#'   rename(value=unemploy)
 #' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
-#' g  = ggplot(dg, aes(x=unemploy))+
+#' g  = ggplot(dg, aes(x=value))+
 #'   geom_histogram(fill=snred, color=snbackgray, binwidth=500) + ## set a reasonable binwidth
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
@@ -154,12 +156,15 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'   summarise(mpg = mean(mpg)) %>%
 #'   mutate(cyl = paste0(cyl, '-cylinder'), ## so that labels look nicer
 #'          cyl = factor(cyl, levels=c('8-cylinder', '6-cylinder', '4-cylinder')), ## change order of factors
-#'          max = 35) ## same number as upper limit below
+#'          max = 35) %>% ## same number as upper limit below. For creating light gray background bars
+#'   rename(name  = cyl, ## since "name" and "value" will be more common column names,
+#'          value = mpg) ## let's use those here
+#'
 #' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
-#' g = ggplot(dg, aes(x=mpg, y=cyl))+
-#'   geom_bar(stat='identity', aes(x=max), color=NA, fill=snlightgray, width=0.8)+ ## option full-length gray bars in the background. Use same number as in `limits` below
+#' g = ggplot(dg, aes(x=value, y=name))+
+#'   geom_bar(stat='identity', aes(x=max), color=NA, fill=snlightgray, width=0.8)+ ## optional full-length gray bars in the background. Use same number as in `limits` below
 #'   geom_bar(stat='identity', fill=snred, color=NA, width=0.8)+ ## the 0.8 increases the gap between bars
-#'   geom_text(aes(label=round(mpg,2)), hjust=-0.1)+ ## optionally, add numbers with reasonable number of digits
+#'   geom_text(aes(label=round(value,2)), hjust=-0.1)+ ## optionally, add numbers with reasonable number of digits
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
 #'        caption  = "Optional caption, giving additional info or twitter handle",
@@ -183,11 +188,13 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Grid plot example
 #' dg = airquality %>%
 #'   mutate(Month= month.abb[Month],
-#'          Month = factor(Month, levels=rev(month.abb))) # use rev for May at top, Sep at bottom
-#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
+#'          Month = factor(Month, levels=rev(month.abb)))%>% # use rev for May at top, Sep at bottom
+#'   rename(name  = Day,
+#'          name2 = Month,
+#'          value = Temp)
 #'
-#' g = ggplot(dg, aes(x=Day, y=Month, fill=Temp))+
-#'   #g = ggplot(dg, aes(x=carat, y=color, fill=price))+
+#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
+#' g = ggplot(dg, aes(x=name, y=name2, fill=value))+
 #'   geom_tile(size=0.4, show.legend = F) +
 #'   scale_fill_gradient(low = snbackgray,
 #'                       high = snred,
@@ -198,14 +205,13 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'        caption  = "Optional caption, giving additional info or twitter handle",
 #'        x = 'Day (Optional Axis Label in Upper Lower)', ## Optional
 #'        y = NULL)+  ## Optional. If used, use Upper Lower. If not used, use y=NULL. Do not use y=''.
-#'   geom_vline(xintercept=1:(length(unique(dg$Day ))+1)-.5, color=sndarkgray, size=0.2)+ # vert  lines
-#'   geom_hline(yintercept=1:(length(unique(dg$Month   ))+1)-.5, color=sndarkgray, size=0.2)+ # horiz lines between each square
+#'   geom_vline(xintercept=1:(length(unique(dg$name ))+1)-.5, color=sndarkgray, size=0.2)+ # vert  lines
+#'   geom_hline(yintercept=1:(length(unique(dg$name2))+1)-.5, color=sndarkgray, size=0.2)+ # horiz lines between each square
 #'   scale_x_continuous(expand = c(0, 0), position='top', breaks=seq(2,30,by=2))+
 #'   scale_y_discrete(expand = c(0, 0)) +
 #'   theme_sn(type='grid', base_size=36/3) ## use 16 or 12 to show in RStudio, use 36 to save as image
 #'
 #' print(g)
-#'
 #'
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
@@ -219,14 +225,16 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'
 #'
 #' ## Faceting example
-## We'll use our scatter plot example, but with facet-wrap to make separate plots for each cyl
+#' ## We'll use our scatter plot example, but with facet-wrap to make separate plots for each cyl
 #' dg = mtcars %>%
 #'   select(wt, mpg, cyl) %>%
-#'   mutate(cyl = paste0(cyl, '-cylinder'))
-#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
+#'   mutate(cyl = paste0(cyl, '-cylinder')) %>%
+#'   rename(name = cyl)
 #'
+#' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #' g = ggplot(dg, aes(x=wt, y=mpg))+
 #'   geom_point(color=snred)+
+#'   facet_wrap(~name, nrow=1) +
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
 #'        caption  = "Optional caption, giving additional info or twitter handle",
@@ -235,11 +243,6 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
 #'   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish)+
 #'   coord_cartesian(clip='off', expand=FALSE)+
-#'   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
-#' print(g)
-#'
-#' g = g +
-#'   facet_wrap(~cyl, nrow=1) +
 #'   theme_sn(type='scatter', base_size=36/3, facet=T)
 #' print(g)
 #'
