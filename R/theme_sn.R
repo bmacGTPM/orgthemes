@@ -80,19 +80,30 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'
 #' ## Line plot
 #' dg = economics_long
-#' dg = dg %>% mutate(variable = toupper(variable)) ## avoid using all lowercase letters in a legend
+#'
+#' ## Since "name" and "value" will be more common column names
+#' ## when using these in the wild, rename some columns in this example.
+#' ## Continuous variables for x seem to be more common,
+#' ## so convert date to days for this example
+#' dg = dg %>%
+#'   mutate(name = toupper(variable), ## avoid using all lowercase letters in a legend
+#'          days = as.numeric(date - min(date)), ## convert date to a continuous variable in days
+#'          value= value01) %>%
+#'   select(days, name, value)
+#' head(dg)
+#'
 #' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
-#' g = ggplot(dg, aes(x=date, y=value01, color=variable))+
-#'  geom_line()+
+#' g = ggplot(dg, aes(x=days, y=value, color=name))+
+#'   geom_line()+
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
 #'        caption  = "Optional caption, giving additional info or twitter handle",
-#'               x = 'Horizontal Axis Label in Upper Lower', ## Required.
-#'               y = 'Vertical Axis Label in Upper Lower')+  ## Required.
-#'  scale_x_date() + ## set limits and breaks. In this case, the defaults are fine.
-#'  scale_y_continuous(limits=c(0,1), breaks=c(0, .5, 1))+ ## Required
-#'  coord_cartesian(clip='off', expand=FALSE)+
-#'  theme_sn(type='line', base_size=36/3) ## Use 36/3=12 or smaller in RStudio, use 36 to save as image
+#'        x = 'Horizontal Axis Label in Upper Lower', ## Required.
+#'        y = 'Vertical Axis Label in Upper Lower')+  ## Required.
+#'   scale_x_continuous() + ## set limits and breaks. In this case, the defaults are fine.
+#'   scale_y_continuous(limits=c(0,1), breaks=c(0, .5, 1))+ ## Required
+#'   coord_cartesian(clip='off', expand=FALSE)+
+#'   theme_sn(type='line', base_size=36/3) ## Use 36/3=12 or smaller in RStudio, use 36 to save as image
 #'
 #' print(g)
 #'
