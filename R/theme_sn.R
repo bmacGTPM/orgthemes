@@ -54,9 +54,10 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'
 #' ## Scatter plot example
 #' dg = mtcars %>% select(wt, mpg)
+#'
 #' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #' g = ggplot(dg, aes(x=wt, y=mpg))+
-#'   geom_point(color=snred)+
+#'   geom_point(aes(size=mpg), color=snred)+
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
 #'        caption  = "Optional caption, giving additional info or twitter handle",
@@ -65,18 +66,21 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
 #'   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish)+
 #'   coord_cartesian(clip='off', expand=FALSE)+
-#'   theme_sn(type='scatter', base_size = 36/3) ## use 36/3=12 in RStudio, use 36 to save as image
+#'   theme_sn(type='scatter', base_size = 12) ## use 36/3=12 in RStudio, use 36 to save as image
 #' print(g)
 #'
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-#'        plot=g + theme_sn(type='scatter', base_size=36),
+#'        plot=g +
+#'          theme_sn(type='scatter', base_size=36)+
+#'          scale_size(range=c(6,18)), ## change range=c(6,18) when base_size=36
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
 #'        dpi=72)     ## do not change
+#'
 #'
 #' ## Line plot
 #' dg = economics_long
@@ -233,7 +237,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'
 #' title = "Title in Upper Lower" ## to be used by ggplot and ggsave
 #' g = ggplot(dg, aes(x=wt, y=mpg))+
-#'   geom_point(color=snred)+
+#'   geom_point(aes(size=mpg), color=snred)+
 #'   facet_wrap(~name, nrow=1) +
 #'   labs(title    = title,
 #'        subtitle = 'Optional Subtitle In Upper Lower',
@@ -250,7 +254,9 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## Square images are often preferred, so when in doubt, choose height so that each subplot is square.
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-#'        plot=g + theme_sn(type='scatter', base_size=36, facet=T),
+#'        plot=g +
+#'          theme_sn(type='scatter', base_size=36, facet=T)+
+#'          scale_size(range=c(6,18)), ## change range=c(6,18) when base_size=36
 #'        width=20,   ## do not change
 #'        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
 #'        units='in', ## do not change
@@ -276,8 +282,14 @@ theme_sn <- function (type='line',
   update_geom_defaults("point" , list(size=  8*base_size/36, color=sntextgray))
   update_geom_defaults("line"  , list(size=  3*base_size/36, color=sntextgray))
   update_geom_defaults("smooth", list(size=  3*base_size/36, color=sntextgray))
+  update_geom_defaults("segment",list(size=  3*base_size/36, color=sntextgray))
   update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray, family=base_family))
   update_geom_defaults("bar"   , list(                       color=sntextgray)) ## does width even work?
+
+  ## this changes the default scale_size range
+  ## unfortunately scale_size() still needed to be called.
+  ## See https://github.com/bmacGTPM/themesn/issues/12
+  #formals(scale_size, envir = environment(scale_size))$range <<- c(6,21)*base_size/36
 
   ## define colors if needed
   if(colors == 'default'){pal = default.pal}
@@ -288,6 +300,8 @@ theme_sn <- function (type='line',
   options(ggplot2.discrete.colour   = pal)
   options(ggplot2.discrete.fill     = pal)
   #options(ggplot2.continuous.size   = function() scale_size_continuous(limits=c(5, 10))) ## don't think this is an option
+
+
 
   th = theme(line = element_line(colour = sntextgray,
                                  size = base_line_size,
@@ -420,6 +434,7 @@ theme_sn <- function (type='line',
                                       panel.grid.major = element_blank())}
   if(facet==T       ){th = th + theme(panel.border = element_rect(color=sntextgray, fill=NA),
                                       strip.background   = element_rect(color=sntextgray, fill=snlightgray))}
+
   return(th)
 }
 
