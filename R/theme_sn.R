@@ -39,14 +39,14 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 
 #' A ggplot theme
 #'
-#' A ggplot theme for making uniformly formatted viz in the SCORE network
+#' A ggplot theme for making publication quality visualizations with options for organization-specific colors and logos.
 #' @param type Text indicating the type of plot the theme is being used for.  Supported types are currently 'line', 'bar', 'hist', 'grid', 'scatter' which can be used for plots with `geom_line`, `geom_bar`, `geo_histogram`, `geom_tile`, and `geom_point`.  Other plot types will be added later.
 #' @param base_size base font size, given in pts. For saving images, 36 is required. For viewing in RStudio, something much smaller like 36/3 = 12 (the default) is recommended.
 #' @param base_family base font family.  The default is `'sans'`, which is available cross-platform by default.
 #' @param base_line_size base size for line elements. Default is `base_size*.35/36`, and should typically not be changed.
 #' @param base_rect_size base size for rect elements. Default is `base_size*.35/36`, and should typically not be changed.
 #' @param facet Indicates whether or not `facet_wrap` or `facet_grid` are being used for this plot.  The default is `facet=FALSE`.
-#' @param colors Choose the color palette. The default, colors='default", is reds, blues and grays commonly used in journalism.  'cb14' is a colorblind friendly palette with 14 colors, and 'cmu' is reds, blues, grays
+#' @param colors Choose the color palette. The default, colors='default", is reds, blues and grays commonly used in journalism.  'cb14' is a colorblind friendly palette with 14 colors. Choosing 'yourorgname' will use specific reds, blues, and grays from the organizations color palette, if they have been implement.
 #' @return When used in conjunction with ggplot, it returns a plot formatted using the sn theme.
 #' @examples
 #'
@@ -71,7 +71,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
 #'        plot=g + theme_sn(type='scatter', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -104,7 +104,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
 #'        plot=g + theme_sn(type='line', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -130,7 +130,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
 #'        plot = g + theme_sn(type='hist', base_size=36),
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -162,7 +162,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
-#' ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
 #'        plot = g + theme_sn(type='bar', base_size=36),
 #'        width=20,   ## do not change
 #'        height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
@@ -199,7 +199,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## When in doubt, choose height so that the tiles are square
-#' ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
 #'        plot=g + theme_sn(type='grid', base_size=36),
 #'        width=20,   ## do not change
 #'        height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
@@ -235,7 +235,7 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## Square images are often preferred, so when in doubt, choose height so that each subplot is square.
-#' ggsave(filename=paste0('img/', title, '.jpg'), ## must have a subfolder called 'img'
+#' ggsave(filename=paste0('img/', gsub('%', ' Perc', title), '.jpg'), ## must have a subfolder called 'img'
 #'        plot=g + theme_sn(type='scatter', base_size=36, facet=T),
 #'        width=20,   ## do not change
 #'        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
@@ -374,7 +374,7 @@ theme_sn <- function (type='line',
                                   r = 50*px,
                                   b = 50*px,
                                   l = 50*px, unit='in'),
-             strip.background   = NULL, #element_rect(color=sntextgray, fill=snlightgray), ## don't show unless facet=T
+             strip.background   = NULL,
              strip.background.x = NULL,
              strip.background.y = NULL,
              strip.placement    = "outside",
@@ -391,8 +391,7 @@ theme_sn <- function (type='line',
 
   ## Change the base theme based on the type of plot specified by the user.
   if(type=='scatter'){th = th + theme(panel.grid.major.x = element_line(colour = snlightgray))}
-  if(type=='line'   ){th = th #+ theme(#axis.line.y  = element_blank(), axis.ticks.y = element_line(colour = snlightgray))
-  }
+  if(type=='line'   ){th = th}
   if(type=='bar'    ){th = th + theme(axis.line  = element_blank(),
                                       axis.ticks = element_blank(),
                                       axis.ticks.length = unit(0, "pt"), # set to 0, otherwise the blank ticks take up whitespace
@@ -405,11 +404,25 @@ theme_sn <- function (type='line',
                                       strip.background = element_blank(),
                                       axis.title.x.top   = element_text(margin = margin(t = -6*px, b = 30*px, unit='in'), vjust = 0),
                                       panel.grid.major = element_blank())}
-
   if(facet==T       ){th = th + theme(panel.border = element_rect(color=sntextgray, fill=NA),
                                       strip.background   = element_rect(color=sntextgray, fill=snlightgray))}
-
   return(th)
+}
+
+## Yale theme.  Same as theme_sn but with different colors
+theme_yale <- function (type='line',
+                        base_size = 36/3,
+                        base_family = "sans",
+                        base_line_size=base_size*.35/36*3,
+                        base_rect_size=base_size*.35/36,
+                        facet=F){
+  theme_sn(type=type,
+           base_size     =base_size,
+           base_family   =base_family,
+           base_line_size=base_line_size,
+           base_rect_size=base_rect_size,
+           facet=facet,
+           colors = 'yale')
 }
 
 ## CMU theme.  Same as theme_sn but with different colors
@@ -426,5 +439,4 @@ theme_cmu <- function (type='line',
            base_rect_size=base_rect_size,
            facet=facet,
            colors = 'cmu')
-
 }
