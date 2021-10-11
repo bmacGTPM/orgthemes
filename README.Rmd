@@ -34,6 +34,13 @@ If you get an error about download method, try changing this option before insta
 options(download.file.method = 'libcurl')
 ```
 
+The theme will change some of your ggplot defaults the first time you use it. 
+To change them back, restart R, or use 
+```{r}
+restore.ggplot.defaults()
+```
+
+
 ## Example Figures 
 See the help file `?theme_sn` for code that generates these figures.
 
@@ -68,8 +75,8 @@ include_graphics('Example Grid Plot.jpg')
 include_graphics('Example Plot with Faceting.jpg') 
 ```
 
-## Default settings
-This theme changes your default ggplot settings using 
+## Default colors
+This theme changes your default ggplot colors using 
 
 ```{r}
 snred         = rgb(200,  20,  40, max=255) ## red for highlighted data
@@ -85,7 +92,57 @@ snlightblue   = rgb(130, 180, 210, max=255) ## blue for background data
 default.pal = c(snred, snblue, sntextgray,  snlightred, snlightblue)
 scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
 scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
+```
 
+To use an organizations colors, use for example `theme_sn(..., colors='yale')`. 
+Equivalently, use `theme_yale(...)`. 
+
+To add organization-specific color scheme that does not yet exist in the package, open `colors.r` add a section for your org that defines the official colors, a color palette with those colors, and a theme function. For example
+
+```{r}
+## Yale
+## Colors from https://yaleidentity.yale.edu/web
+yalered       = NA
+yaleblue      ='#00356b'
+yalemedblue   ='#286dc0'
+yalelightblue ='#63aaff'
+yaledarkgray  ='#222222'
+yalemediumgray='#4a4a4a'
+yalebrowngray ='#978d85'
+yalelightgray ='#dddddd'
+yalegreen     ='#5f712d'
+yaleorange    ='#bd5319'
+yalebackgray  ='#f9f9f9'
+
+## Palette
+yale.pal = c(yaleblue   , yaleorange,
+             yalemediumgray, yalebrowngray,
+             yalelightblue , yalegreen,
+             yalelightgray , yaleblue)
+
+
+## Yale theme.  Same as theme_sn but with the Yale-specific colors
+theme_yale <- function (type='line',
+                        base_size = 36/3,
+                        base_family = "sans",
+                        base_line_size=base_size*.35/36*3,
+                        base_rect_size=base_size*.35/36,
+                        facet=F){
+  theme_sn(type=type,
+           base_size     =base_size,
+           base_family   =base_family,
+           base_line_size=base_line_size,
+           base_rect_size=base_rect_size,
+           facet=facet,
+           colors = 'yale')
+}
+```
+
+and then make a pull-request. It is recommended that you make a copy of another organizations colors, palette, and theme function (like the above chunk), and edit it for your organization. 
+
+
+
+```{r}
 update_geom_defaults("point" , list(size=  8*base_size/36, color=sntextgray))
 update_geom_defaults("line"  , list(size=  3*base_size/36, color=sntextgray))
 update_geom_defaults("smooth", list(size=  3*base_size/36, color=sntextgray))
@@ -93,20 +150,4 @@ update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray))
 update_geom_defaults("bar"   , list(width=.8             , color=sntextgray))
 ```
 
-To change them back, restart R, or use 
-```{r}
-scale_colour_discrete <- function(...) scale_color_hue()
-scale_fill_discrete   <- function(...) scale_fill_hue()
-update_geom_defaults("point" , list(size=  1.5 , color='black'))
-update_geom_defaults("line"  , list(size=  1.0 , color='black'))
-update_geom_defaults("smooth", list(size=  1.0 , color="#3366FF"))
-update_geom_defaults("text"  , list(size=  3.88, color='black'), family="sans")
-update_geom_defaults("bar"   , list(width=.9   , color="grey35"))
-```
-
-If more than 5-6 colors are needed, this 14-color colorblind friendly palette `cb14` can be used by adding `+ scale_color_manual(values=cb14)` or `+ scale_fill_manual( values=cb14)` to a plot. 
-
-
-
-
-
+If more than 5-6 colors are needed, the 14-color colorblind friendly palette `cb14` can be used by adding `+ scale_color_manual(values=cb14)` or `+ scale_fill_manual( values=cb14)` to a plot. 
