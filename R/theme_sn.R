@@ -6,7 +6,7 @@ library(ggplotify)
 library(gridExtra)
 library(grid)
 
-source('R/colors.r')
+#source('R/colors.r')
 
 #' A ggplot theme
 #'
@@ -46,7 +46,7 @@ source('R/colors.r')
 #'
 #' gg= g +
 #'   theme_sn(type='scatter', base_size=36)+
-#'   scale_size(range=c(6,18)), ## change range=c(6,18) when base_size=36
+#'   scale_size(range=c(6,18)) ## change range=c(6,18) when base_size=36
 #'
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
 #'        plot=gg,
@@ -101,6 +101,9 @@ source('R/colors.r')
 #'        units='in', ## do not change
 #'        dpi=72)     ## do not change
 #'
+#' ## Org-specific colors
+#' g + theme_sn(  type='scatter', base_size=12, colors='yale')
+#' g + theme_yale(type='scatter', base_size=12) ## same
 #'
 #' ## Histogram example
 #' dg = economics %>%
@@ -263,6 +266,7 @@ source('R/colors.r')
 #'        height=14,  ## can change if desired. Here, 13 was chosen so that each subplot is square
 #'        units='in', ## do not change
 #'        dpi=72)     ## do not change
+#'
 
 theme_sn <- function (type='line',
                       base_size = 36/3,
