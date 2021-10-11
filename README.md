@@ -128,6 +128,6 @@ theme_yale <- function (type='line',
 }
 ```
 
-and then make a pull-request. It is recommended that you make a copy of
+Then make a pull-request. It is recommended that you make a copy of
 another organizations colors, palette, and theme function (like the
 above chunk), and edit it for your organization.
