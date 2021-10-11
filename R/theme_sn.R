@@ -1,41 +1,12 @@
 library(tidyverse)
 library(scales)
+library(png)
+library(gtable)
+library(ggplotify)
+library(gridExtra)
+library(grid)
 
-## define colors
-snred         = rgb(200,  20,  40, max=255) ## red for highlighted data
-snlightred    = rgb(230, 140, 140, max=255) ## red for background data
-sndarkgray    = rgb( 30,  30,  30, max=255) ## gray for highlighted data (dark)
-snmediumgray  = rgb(135, 135, 135, max=255) ## medium gray for subtitle and caption
-snlightgray   = rgb(210, 210, 210, max=255) ## gray for background data
-sntextgray    = rgb(100, 100, 100, max=255) ## dark gray for text
-snbackgray    = rgb(240, 240, 240, max=255) ## very light gray for image background
-snblue        = rgb(  5, 140, 200, max=255) ## blue for highlighted data
-snlightblue   = rgb(130, 180, 210, max=255) ## blue for background data
-default.pal = c(snred, snblue, sntextgray,  snlightred, snlightblue)
-
-## CMU colors
-## Copied images here https://www.cmu.edu/brand/brand-guidelines/visual-identity/colors.html
-## And opened in MSPaint, color picker, Edit Colors.
-## The CMYK values look wrong on the website.
-## I should maybe move these elsewhere at some point.
-cmured        = rgb(196,  18,  48, max=255)
-cmumediumgray = rgb(110, 110, 110, max=255)
-cmulightgray  = rgb(190, 190, 190, max=255)
-cmublue       = rgb(  4,  54, 115, max=255)
-cmulightblue  = rgb(  0, 139, 192, max=255)
-cmurose       = rgb(239,  58,  71, max=255)
-cmugold       = rgb(253, 181,  21, max=255)
-cmugreen      = rgb(  0, 150,  71, max=255)
-cmuteal       = rgb(  0, 143, 145, max=255)
-cmu.pal = c(cmured, cmublue, cmumediumgray, cmulightgray, cmulightblue, cmugold, cmugreen, cmurose, cmuteal)
-
-## colorblind friendly color palette
-## from https://jacksonlab.agronomy.wisc.edu/2016/05/23/15-level-colorblind-friendly-palette/
-cb14 =  c("#000000","#004949","#009292","#ff6db6","#ffb6db",
-            "#490092","#006ddb","#b66dff","#6db6ff","#b6dbff",
-            "#920000","#924900","#db6d00","#24ff24","#ffff6d")
-cb14[15] = 'lightgray' ## replace the yellow with gray, since yellow is almost impossible to see.
-cb14 = cb14[-2] ## remove this since it is so close to the next one
+source('R/colors.r')
 
 #' A ggplot theme
 #'
@@ -72,10 +43,13 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
+#'
+#' gg= g +
+#'   theme_sn(type='scatter', base_size=36)+
+#'   scale_size(range=c(6,18)), ## change range=c(6,18) when base_size=36
+#'
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-#'        plot=g +
-#'          theme_sn(type='scatter', base_size=36)+
-#'          scale_size(range=c(6,18)), ## change range=c(6,18) when base_size=36
+#'        plot=gg,
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
@@ -83,13 +57,11 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #'
 #'
 #' ## Line plot
-#' dg = economics_long
-#'
 #' ## Since "name" and "value" will be more common column names
 #' ## when using these in the wild, rename some columns in this example.
 #' ## Continuous variables for x seem to be more common,
 #' ## so convert date to days for this example
-#' dg = dg %>%
+#' dg = economics_long %>%
 #'   mutate(name = toupper(variable), ## avoid using all lowercase letters in a legend
 #'          days = as.numeric(date - min(date)), ## convert date to a continuous variable in days
 #'          value= value01) %>%
@@ -119,8 +91,11 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
+#'
+#' gg = g + theme_sn(type='line', base_size=36)
+#'
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-#'        plot=g + theme_sn(type='line', base_size=36),
+#'        plot=gg,
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
@@ -147,8 +122,11 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
+#'
+#' gg = g + theme_sn(type='hist', base_size=36)
+#'
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-#'        plot = g + theme_sn(type='hist', base_size=36),
+#'        plot = gg,
 #'        width=20,   ## do not change
 #'        height=20,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
@@ -182,8 +160,11 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## A square image is often preferred, so when in doubt, keep height at 20.
+#'
+#' gg = g + theme_sn(type='bar', base_size=36)
+#'
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-#'        plot = g + theme_sn(type='bar', base_size=36),
+#'        plot = gg,
 #'        width=20,   ## do not change
 #'        height=15,  ## can change if desired. In most cases, a square figure (height=20) is probably preferred.
 #'        units='in', ## do not change
@@ -220,8 +201,11 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## When in doubt, choose height so that the tiles are square
+#'
+#' gg = g + theme_sn(type='grid', base_size=36)
+#'
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-#'        plot=g + theme_sn(type='grid', base_size=36),
+#'        plot=gg,
 #'        width=20,   ## do not change
 #'        height=10,  ## can change if desired. In this case, 10 is used to make the tiles square
 #'        units='in', ## do not change
@@ -253,15 +237,32 @@ cb14 = cb14[-2] ## remove this since it is so close to the next one
 #' ## Use `ggsave` and `base_size=36` when saving an image.
 #' ## Do not adjust the width. Height can be adjusted if desired.
 #' ## Square images are often preferred, so when in doubt, choose height so that each subplot is square.
+#' gg = g +
+#'   theme_sn(type='scatter', base_size=36, facet=T)+
+#'   scale_size(range=c(6,18))
+#'
 #' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-#'        plot=g +
-#'          theme_sn(type='scatter', base_size=36, facet=T)+
-#'          scale_size(range=c(6,18)), ## change range=c(6,18) when base_size=36
+#'        plot=gg, ## change range=c(6,18) when base_size=36
 #'        width=20,   ## do not change
-#'        height=13,  ## can change if desired. Here, 13 was chosen so that each subplot is square
+#'        height=14,  ## can change if desired. Here, 14 was chosen so that each subplot is square
 #'        units='in', ## do not change
 #'        dpi=72)     ## do not change
 #'
+#' ## Logo
+#' ## Add a logo to the lower right corner of your plot with add_logo
+#' g %>% add_logo('r') ## check logo in RStudio viewer
+#'
+#' gg = g +
+#'   theme_sn(type='scatter', base_size=36)+ ## prep for ggsave
+#'   scale_size(range=c(6,18)/2)
+#' gg = gg %>% add_logo('r') ## add logo to lower right corner
+#'
+#' ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
+#'        plot=gg, ## change range=c(6,18) when base_size=36
+#'        width=20,   ## do not change
+#'        height=14,  ## can change if desired. Here, 13 was chosen so that each subplot is square
+#'        units='in', ## do not change
+#'        dpi=72)     ## do not change
 
 theme_sn <- function (type='line',
                       base_size = 36/3,
@@ -294,7 +295,10 @@ theme_sn <- function (type='line',
   ## define colors if needed
   if(colors == 'default'){pal = default.pal}
   if(colors == 'cb14'   ){pal =      cb.pal}
+  if(colors == 'yale'   ){pal =    yale.pal}
   if(colors == 'cmu'    ){pal =     cmu.pal}
+
+  ## redefine default color palettes
   options(ggplot2.continuous.colour = function() scale_colour_gradient(low=snlightgray, high=snblue)) ## use different blue
   options(ggplot2.continuous.fill   = function() scale_colour_gradient(low=snlightgray, high=snblue)) ## use different blue
   options(ggplot2.discrete.colour   = pal)
@@ -438,34 +442,3 @@ theme_sn <- function (type='line',
   return(th)
 }
 
-## Yale theme.  Same as theme_sn but with different colors
-theme_yale <- function (type='line',
-                        base_size = 36/3,
-                        base_family = "sans",
-                        base_line_size=base_size*.35/36*3,
-                        base_rect_size=base_size*.35/36,
-                        facet=F){
-  theme_sn(type=type,
-           base_size     =base_size,
-           base_family   =base_family,
-           base_line_size=base_line_size,
-           base_rect_size=base_rect_size,
-           facet=facet,
-           colors = 'yale')
-}
-
-## CMU theme.  Same as theme_sn but with different colors
-theme_cmu <- function (type='line',
-                       base_size = 36/3,
-                       base_family = "sans",
-                       base_line_size=base_size*.35/36*3,
-                       base_rect_size=base_size*.35/36,
-                       facet=F){
-  theme_sn(type=type,
-           base_size     =base_size,
-           base_family   =base_family,
-           base_line_size=base_line_size,
-           base_rect_size=base_rect_size,
-           facet=facet,
-           colors = 'cmu')
-}
