@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 library(knitr)
+library(themesn)
 ```
 # themesn
 
@@ -36,9 +37,8 @@ options(download.file.method = 'libcurl')
 
 The theme will change some of your ggplot defaults the first time you use it. 
 To change them back, restart R, or use 
-```{r}
-restore.ggplot.defaults()
-```
+
+`restore.ggplot.defaults()`
 
 
 ## Example Figures 
@@ -94,15 +94,17 @@ scale_colour_discrete <- function(...) scale_color_manual(values=default.pal)
 scale_fill_discrete   <- function(...) scale_fill_manual( values=default.pal)
 ```
 
+
+If more than 5-6 colors are needed, the 14-color colorblind friendly palette `cb14` can be used by adding `+ scale_color_manual(values=cb14)` or `+ scale_fill_manual( values=cb14)` to a plot. 
+
 To use an organizations colors, use for example `theme_sn(..., colors='yale')`. 
 Equivalently, use `theme_yale(...)`. 
 
-To add organization-specific color scheme that does not yet exist in the package, open `colors.r` add a section for your org that defines the official colors, a color palette with those colors, and a theme function. For example
+To add organization-specific color scheme that does not yet exist in the package, open `colors.r`, and add a section for your org that defines the official colors, a color palette with those colors, and a theme function. For example
 
-```{r}
+```{r, eval=F}
 ## Yale
 ## Colors from https://yaleidentity.yale.edu/web
-yalered       = NA
 yaleblue      ='#00356b'
 yalemedblue   ='#286dc0'
 yalelightblue ='#63aaff'
@@ -141,13 +143,3 @@ theme_yale <- function (type='line',
 and then make a pull-request. It is recommended that you make a copy of another organizations colors, palette, and theme function (like the above chunk), and edit it for your organization. 
 
 
-
-```{r}
-update_geom_defaults("point" , list(size=  8*base_size/36, color=sntextgray))
-update_geom_defaults("line"  , list(size=  3*base_size/36, color=sntextgray))
-update_geom_defaults("smooth", list(size=  3*base_size/36, color=sntextgray))
-update_geom_defaults("text"  , list(size=.35*base_size   , color=sntextgray))
-update_geom_defaults("bar"   , list(width=.8             , color=sntextgray))
-```
-
-If more than 5-6 colors are needed, the 14-color colorblind friendly palette `cb14` can be used by adding `+ scale_color_manual(values=cb14)` or `+ scale_fill_manual( values=cb14)` to a plot. 
