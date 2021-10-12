@@ -56,8 +56,8 @@ g = ggplot(dg, aes(x=wt, y=mpg))+
        caption  = "Optional caption, giving additional info or twitter handle",
        x = 'Horizontal Axis Label in Upper Lower',
        y = 'Vertical Axis Label in Upper Lower')+
-  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
-  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish)+
+  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
+  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
   coord_cartesian(clip='off', expand=FALSE)+
   theme_sn(type='scatter', base_size = 12) 
 print(g)
@@ -137,8 +137,8 @@ g = ggplot(dg, aes(x=days, y=value, color=name))+
        caption  = "Optional caption, giving additional info or twitter handle",
        x = 'Horizontal Axis Label in Upper Lower', 
        y = 'Vertical Axis Label in Upper Lower')+  
-  scale_x_continuous() + 
-  scale_y_continuous(limits=c(0,1), breaks=c(0, .5, 1))+ 
+  scale_x_continuous(labels=comma) + 
+  scale_y_continuous(labels=comma, limits=c(0,1), breaks=c(0, .5, 1))+ 
   coord_cartesian(clip='off', expand=FALSE)+
   theme_sn(type='line', base_size=36/3) 
 print(g)
@@ -177,7 +177,8 @@ g  = ggplot(dg, aes(x=value))+
        caption  = "Optional caption, giving additional info or twitter handle",
        x = 'Horizontal Axis Label in Upper Lower', ## Required.
        y = 'Count')+  ## Often don't need to change.
-  scale_y_continuous(expand = c(0,0))+
+  scale_x_continuous(labels=comma)+
+  scale_y_continuous(labels=comma, expand = c(0,0))+
   theme_sn(type='hist', base_size=36/3) 
 print(g)
 ```
@@ -252,7 +253,7 @@ the text fits.
 
 You may want to remove `x` and `y` axis titles. If not used, use
 `x=NULL` and/or `y=NULL` above. Do not use `x=''` and/or `y=''`. If you
-do use those, they should be in Upper Lower.
+do use axes titles, they should be in Upper Lower.
 
 ## Grid plot
 
@@ -301,8 +302,8 @@ ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"),
 
 ## Faceting
 
-We’ll use our scatter plot example, but with facet-wrap to make separate
-plots for each cyl
+We’ll use our scatter plot example, but with `facet_wrap` to make
+separate plots for each `cyl`.
 
 ``` r
 dg = mtcars %>%
@@ -319,8 +320,8 @@ g = ggplot(dg, aes(x=wt, y=mpg))+
        caption  = "Optional caption, giving additional info or twitter handle",
        x = 'Horizontal Axis Label in Upper Lower',
        y = 'Vertical Axis Label in Upper Lower')+
-  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish)+
-  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish)+
+  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
+  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
   coord_cartesian(clip='off', expand=FALSE)+
   theme_sn(type='scatter', base_size=36/3, facet=T)
 print(g)
