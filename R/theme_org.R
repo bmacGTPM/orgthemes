@@ -28,7 +28,7 @@ library(grid)
 #' for examples.
 
 
-theme_sn <- function (type='line',
+theme_org <- function (type='line',
                       base_size = 36/3,
                       base_family = "sans",
                       base_line_size=base_size*.35/36*3,

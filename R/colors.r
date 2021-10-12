@@ -44,20 +44,20 @@ yale.pal = c(yaleblue   , yaleorange,
              yalelightgray , yaleblue)
 
 
-## Yale theme.  Same as theme_sn but with different colors
+## Yale theme.  Same as theme_org but with different colors
 theme_yale <- function (type='line',
                         base_size = 36/3,
                         base_family = "sans",
                         base_line_size=base_size*.35/36*3,
                         base_rect_size=base_size*.35/36,
                         facet=F){
-  theme_sn(type=type,
-           base_size     =base_size,
-           base_family   =base_family,
-           base_line_size=base_line_size,
-           base_rect_size=base_rect_size,
-           facet=facet,
-           colors = 'yale')
+  theme_org(type=type,
+            base_size     =base_size,
+            base_family   =base_family,
+            base_line_size=base_line_size,
+            base_rect_size=base_rect_size,
+            facet=facet,
+            colors = 'yale')
 }
 
 
@@ -79,18 +79,18 @@ cmuteal       = rgb(  0, 143, 145, max=255)
 cmu.pal = c(cmured, cmublue, cmumediumgray, cmulightgray,
             cmulightblue, cmugold, cmugreen, cmurose, cmuteal)
 
-## CMU theme.  Same as theme_sn but with different colors
+## CMU theme.  Same as theme_org but with different colors
 theme_cmu <- function (type='line',
                        base_size = 36/3,
                        base_family = "sans",
                        base_line_size=base_size*.35/36*3,
                        base_rect_size=base_size*.35/36,
                        facet=F){
-  theme_sn(type=type,
-           base_size     =base_size,
-           base_family   =base_family,
-           base_line_size=base_line_size,
-           base_rect_size=base_rect_size,
-           facet=facet,
-           colors = 'cmu')
+  theme_org(type=type,
+            base_size     =base_size,
+            base_family   =base_family,
+            base_line_size=base_line_size,
+            base_rect_size=base_rect_size,
+            facet=facet,
+            colors = 'cmu')
 }

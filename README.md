@@ -1,23 +1,23 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# themesn
+# orgthemes
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The package `themesn` contains a `ggplot` theme `theme_sn` for creating
-data journalism-style data visualizations with color palettes and
-formatting similar to those used by media organizations like BBC, NY
+The package `orgthemes` contains a `ggplot` theme `theme_org` for
+creating data journalism-style data visualizations with color palettes
+and formatting similar to those used by media organizations like BBC, NY
 Times, and ESPN. Organization-specific color palettes and logos can be
 used as well.
 
 ## Installation
 
-You can install the GitHub version of `themesn` with:
+You can install the GitHub version of `orgthemes` with:
 
 ``` r
-devtools::install_github("bmacGTPM/themesn")
+devtools::install_github("bmacGTPM/orgthemes")
 ```
 
 If you get an error about download method, try changing this option
@@ -30,7 +30,7 @@ options(download.file.method = 'libcurl')
 Load the package using
 
 ``` r
-library(themesn)
+library(orgthemes)
 ```
 
 as usual. The theme will change some of your ggplot defaults the first
@@ -59,7 +59,7 @@ g = ggplot(dg, aes(x=wt, y=mpg))+
   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
   coord_cartesian(clip='off', expand=FALSE)+
-  theme_sn(type='scatter', base_size = 12) 
+  theme_org(type='scatter', base_size = 12) 
 print(g)
 ```
 
@@ -68,7 +68,7 @@ print(g)
 ``` r
 ## Save to a file
 gg = g +
-  theme_sn(type='scatter', base_size=36)+
+  theme_org(type='scatter', base_size=36)+
   scale_size(range=c(6,18)) 
 
 ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
@@ -140,7 +140,7 @@ g = ggplot(dg, aes(x=days, y=value, color=name))+
   scale_x_continuous(labels=comma) + 
   scale_y_continuous(labels=comma, limits=c(0,1), breaks=c(0, .5, 1))+ 
   coord_cartesian(clip='off', expand=FALSE)+
-  theme_sn(type='line', base_size=36/3) 
+  theme_org(type='line', base_size=36/3) 
 print(g)
 ```
 
@@ -149,7 +149,7 @@ print(g)
 ``` r
 ## Save to a file
 gg = g + 
-  theme_sn(type='line', base_size=36)
+  theme_org(type='line', base_size=36)
 
 ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
        plot=gg,
@@ -179,7 +179,7 @@ g  = ggplot(dg, aes(x=value))+
        y = 'Count')+  ## Often don't need to change.
   scale_x_continuous(labels=comma)+
   scale_y_continuous(labels=comma, expand = c(0,0))+
-  theme_sn(type='hist', base_size=36/3) 
+  theme_org(type='hist', base_size=36/3) 
 print(g)
 ```
 
@@ -187,7 +187,7 @@ print(g)
 
 ``` r
 gg = g + 
-  theme_sn(type='hist', base_size=36)
+  theme_org(type='hist', base_size=36)
 
 ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
        plot = gg,
@@ -230,7 +230,7 @@ g = ggplot(dg, aes(x=value, y=name))+
        x = 'Horizontal Axis Label in Upper Lower', ## Optional. 
        y = NULL)+  ## Optional. Upper Lower.
   scale_x_continuous(limits=c(0,35))+ 
-  theme_sn(type='bar', base_size=36/3) 
+  theme_org(type='bar', base_size=36/3) 
 print(g)
 ```
 
@@ -238,7 +238,7 @@ print(g)
 
 ``` r
 gg = g + 
-  theme_sn(type='bar', base_size=36)
+  theme_org(type='bar', base_size=36)
 
 ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
        plot = gg,
@@ -281,7 +281,7 @@ g = ggplot(dg, aes(x=name, y=name2, fill=value))+
   geom_hline(yintercept=1:(length(unique(dg$name2))+1)-.5, color=sndarkgray, size=0.2)+ # horiz lines 
   scale_x_continuous(expand = c(0, 0), position='top', breaks=seq(2,30,by=2))+
   scale_y_discrete(  expand = c(0, 0)) +
-  theme_sn(type='grid', base_size=36/3) 
+  theme_org(type='grid', base_size=36/3) 
 
 print(g)
 ```
@@ -290,7 +290,7 @@ print(g)
 
 ``` r
 gg = g + 
-  theme_sn(type='grid', base_size=36)
+  theme_org(type='grid', base_size=36)
 
 ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
        plot=gg,
@@ -323,7 +323,7 @@ g = ggplot(dg, aes(x=wt, y=mpg))+
   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
   coord_cartesian(clip='off', expand=FALSE)+
-  theme_sn(type='scatter', base_size=36/3, facet=T)
+  theme_org(type='scatter', base_size=36/3, facet=T)
 print(g)
 ```
 
@@ -331,7 +331,7 @@ print(g)
 
 ``` r
 gg = g +
-  theme_sn(type='scatter', base_size=36, facet=T)
+  theme_org(type='scatter', base_size=36, facet=T)
   #scale_size(range=c(6,18))
 
 ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
@@ -356,7 +356,7 @@ g %>% add_logo('r') ## check logo in RStudio viewer
 ``` r
 ## Save to file
 gg = g +
-  theme_sn(type='scatter', base_size=36)+ 
+  theme_org(type='scatter', base_size=36)+ 
   scale_size(range=c(6,18)/2)
 
 gg = gg %>% add_logo('r') ## add logo to lower right corner
@@ -418,7 +418,7 @@ You can use org-specific colors by specifying the `colors` argument, or
 by using the org-specific theme function like this:
 
 ``` r
-g + theme_sn(  type='scatter', base_size=12, facet=T, colors='yale')
+g + theme_org( type='scatter', base_size=12, facet=T, colors='yale')
 ```
 
 <img src="man/figures/README-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
@@ -459,14 +459,14 @@ yale.pal = c(yaleblue   , yaleorange,
              yalelightgray , yaleblue)
 
 
-## Yale theme.  Same as theme_sn but with the Yale-specific colors
+## Yale theme.  Same as theme_org but with the Yale-specific colors
 theme_yale <- function (type='line',
                         base_size = 36/3,
                         base_family = "sans",
                         base_line_size=base_size*.35/36*3,
                         base_rect_size=base_size*.35/36,
                         facet=F){
-  theme_sn(type=type,
+  theme_org(type=type,
            base_size     =base_size,
            base_family   =base_family,
            base_line_size=base_line_size,

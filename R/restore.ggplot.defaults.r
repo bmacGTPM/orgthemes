@@ -1,17 +1,17 @@
 #' Restore ggplot defaults
 #'
-#' A function for restoring ggplot defaults that were changed by the themesn package.
+#' A function for restoring ggplot defaults that were changed by the orgthemes package.
 #' @examples
 #'
 #' ## Load required packages
 #' library(tidyverse)
 #' ggplot(mtcars, aes(x=wt, y=mpg, color=as.factor(cyl))) + geom_point() ## default discrete colors (red, green, blue)
 #'
-#' ## themesn discrete colors (snred, snblue, snmediumgray)
-#' library(themesn)
-#' ggplot(mtcars, aes(x=wt, y=mpg, color=as.factor(cyl))) + geom_point() + theme_sn()
+#' ## orgthemes discrete colors (snred, snblue, snmediumgray)
+#' library(orgthemes)
+#' ggplot(mtcars, aes(x=wt, y=mpg, color=as.factor(cyl))) + geom_point() + theme_org()
 #'
-#' ## Still themesn discrete colors (snred, snblue, snmediumgray), even though theme_sn isn't used
+#' ## Still orgthemes discrete colors (snred, snblue, snmediumgray), even though theme_org isn't used
 #' ggplot(mtcars, aes(x=wt, y=mpg, color=as.factor(cyl))) + geom_point()
 #'
 #' ## Restore defaults. Now the original colors are used again.
