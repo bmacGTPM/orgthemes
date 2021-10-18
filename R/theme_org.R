@@ -200,6 +200,10 @@ theme_org <- function (type='line',
                                       strip.background = element_blank(),
                                       axis.title.x.top   = element_text(margin = margin(t = -6*px, b = 30*px, unit='in'), vjust = 0),
                                       panel.grid.major = element_blank())}
+  if(type=='dw'     ){th = th + theme(axis.ticks = element_blank(),
+                                      axis.ticks.length = unit(0, "pt"), # set to 0, otherwise the blank ticks take up whitespace
+                                      axis.line  = element_blank(),
+                                      strip.background = element_blank())}
   if(facet==T       ){th = th + theme(panel.border = element_rect(color=sntextgray, fill=NA),
                                       strip.background   = element_rect(color=sntextgray, fill=snlightgray))}
 
