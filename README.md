@@ -300,6 +300,67 @@ ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"),
        dpi=72)     ## do not change
 ```
 
+## Dot and Whiskers Plot
+
+It is often desirable to visualize regression coefficients using a dot
+and whiskers plot instead of showing a table of coefficients and
+standard errors. We’ll make up a regression model and demonstrate that
+here.
+
+``` r
+## standardize predictors so they are roughly the same scale
+d = mtcars %>%
+  mutate(wt = scale(wt),  
+         cyl=scale(cyl), 
+         disp=scale(disp), 
+         hp = scale(hp))
+
+m1 = lm(mpg ~  wt + cyl + disp + hp, data=d)
+#summary(m1)
+
+dg = summary(m1)$coefficients %>% 
+  as.data.frame() %>%
+  rownames_to_column(var = 'var') %>%
+  rename(coef=Estimate, se=`Std. Error`) %>%
+  select(var, coef, se) %>%
+  mutate(var = toupper(gsub('[(]|[)]', '', var))) %>%
+  filter(var!='INTERCEPT')
+
+title = "Title in Upper Lower" 
+g = ggplot(dg, aes(x=coef, y=var))+
+  geom_segment(aes(x    = coef-se, 
+                   xend = coef+se,
+                   y    = var, 
+                   yend = var), color=snred)+
+  geom_point(color=snred) +
+  geom_vline(xintercept=0, color=snmediumgray)+
+  labs(title    = title,
+       subtitle = 'Optional Subtitle In Upper Lower',
+       caption  = "Optional caption, giving additional info or twitter handle",
+       x = 'Coefficient', 
+       y = NULL)+  ## Optional. 
+  scale_x_continuous(limits=c(-5,5))+
+  scale_y_discrete(expand=c(0,0)) +
+  coord_cartesian(clip='off')+
+  theme_org(type='dw', base_size=36/3) 
+
+print(g)
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+
+``` r
+gg = g + 
+  theme_org(type='dw', base_size=36)
+
+ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
+       plot=gg,
+       width=20,   ## do not change
+       height=10,  
+       units='in', ## do not change
+       dpi=72)     ## do not change
+```
+
 ## Faceting
 
 We’ll use our scatter plot example, but with `facet_wrap` to make
@@ -320,14 +381,14 @@ g = ggplot(dg, aes(x=wt, y=mpg))+
        caption  = "Optional caption, giving additional info or twitter handle",
        x = 'Horizontal Axis Label in Upper Lower',
        y = 'Vertical Axis Label in Upper Lower')+
-  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
+  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma_format(accuracy = 1))+
   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
   coord_cartesian(clip='off', expand=FALSE)+
   theme_org(type='scatter', base_size=36/3, facet=T)
 print(g)
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 ``` r
 gg = g +
@@ -348,18 +409,18 @@ You can add a logo to the lower right corner of your plot with
 `add_logo`:
 
 ``` r
-g %>% add_logo('r') ## check logo in RStudio viewer
+g %>% add_logo(org='r') ## check logo in RStudio viewer
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 ``` r
 ## Save to file
 gg = g +
-  theme_org(type='scatter', base_size=36)+ 
+  theme_org(type='scatter', base_size=36, facet=T)+ 
   scale_size(range=c(6,18)/2)
 
-gg = gg %>% add_logo('r') ## add logo to lower right corner
+gg = gg %>% add_logo(org='r') ## add logo to lower right corner
 
 ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
        plot=gg, 
@@ -369,26 +430,27 @@ ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"),
        dpi=72)     ## do not change
 ```
 
-You can easily add a logo to the theme by creating a pull request. All
-you need to do is add a image file for the logo called `orgname.png` to
-the logos folder. Then you’ll be able to use `add_logo('orgname')`. For
-example, there is a logo called `yale.png` in the logo folder, so
-instead of
+You can easily add a logo to the theme. All you need to do is add a
+image file for the logo called `orgname.png` to the logos folder, and
+then create a pull request. Then you’ll be able to use
+`add_logo('orgname')`. For example, one of the logos of the American
+Statistical Association has been saved as `asa.png` in the logo folder,
+so instead of
 
 ``` r
-g %>% add_logo('r')
+g %>% add_logo(org='r')
 ```
 
 we can use
 
 ``` r
-g %>% add_logo('yale')
+g %>% add_logo(org='asa')
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
-The name of the file name, without the file extension, must match what
-is put in the argument of `add_logo`.
+The name of the file name, without the `png` file extension, must match
+what is put in the argument of `add_logo`.
 
 Any logo can be used, but logos that are wider logos are better than
 narrow logos.
@@ -410,7 +472,7 @@ or `+ scale_fill_manual( values=cb14)` to a plot. For example,
 g + scale_color_manual(values=cb14)
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 ## Organization-specific colors
 
@@ -421,13 +483,13 @@ by using the org-specific theme function like this:
 g + theme_org( type='scatter', base_size=12, facet=T, colors='yale')
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 ``` r
 g + theme_yale(type='scatter', base_size=12, facet=T) ## same
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-2.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-2.png" style="display: block; margin: auto;" />
 
 You can easily add an organization-specific color scheme that does not
 yet exist in the package with a pull-request. Open `colors.r`, and add a
