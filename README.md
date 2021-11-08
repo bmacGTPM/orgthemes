@@ -14,7 +14,9 @@ used as well.
 
 ## Installation
 
-You can install the GitHub version of `orgthemes` with:
+If you don’t have the package `devtools`, install it using
+`install.packages('devtools')`. If you have `devtools`, you can install
+the GitHub version of `orgthemes` with:
 
 ``` r
 devtools::install_github("bmacGTPM/orgthemes")
@@ -452,8 +454,13 @@ g %>% add_logo(org='asa')
 The name of the file name, without the `png` file extension, must match
 what is put in the argument of `add_logo`.
 
-Any logo can be used, but logos that are wider logos are better than
-narrow logos.
+Any logo can be used, but 1. logos that are wider logos are better than
+narrow logos, and  
+2. logos with a transparent background look *much* better. Your
+organization will typically have several options for logos (e.g. light
+background with dark text, dark background with light text, etc.). One
+of the options will typically be a transparent background with dark
+text. Choose that one if possible.
 
 ## Default colors
 
