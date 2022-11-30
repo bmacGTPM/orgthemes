@@ -1,17 +1,19 @@
 Package: orgthemes
 Type: Package
-Title: A ggplot theme
-Version: 0.2.0
+Title: Organization-specific ggplot themes
+Version: 0.3.0
 Author: Brian Macdonald
 Maintainer: Brian Macdonald <tbd@tbd.com>
-Description: A ggplot theme for publication quality viz
-License: TBD TBD TBD TBD TBD TBD TBD
+Description: A ggplot theme for publication quality viz with org specific colors.
+License: GPL-3
 Depends:
     tidyverse,
+    ggplot2,
     scales, 
+    pubtheme
+Imports:
     png, 
     grid,
-    gridExtra,
     gtable, 
     ggplotify
 Encoding: UTF-8
