@@ -13,23 +13,25 @@ knitr::opts_chunk$set(
   fig.width=7,
   dpi=84,
   #out.width="80%",
-  fig.align='center'
+  fig.align='center',
+  fig.show='hold'
 )
 library(knitr)
 ```
 
-# orgthemes
+# pubtheme
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The package `orgthemes` contains a `ggplot` theme `theme_org` for creating data journalism-style data visualizations with color palettes and formatting similar to those used by media organizations like BBC, NY Times, and ESPN. Organization-specific color palettes and logos can be used as well. 
+The package `orgthemes` contains organization-specific color palettes and logos can be used to modify the default colors used in `pubtheme`. You can add your own organizations colors and logos by following the directions in the examples below. 
 
 ## Installation
 
-If you don't have the package `devtools`, install it using `install.packages('devtools')`. If you have `devtools`, you can install the GitHub version of `orgthemes` with:
+If you don't have the package `devtools`, install it using `install.packages('devtools')`. If you have `devtools`, you can install the GitHub versions of `pubtheme` and `orgthemes` with:
 
 ``` r
+devtools::install_github("bmacGTPM/pubtheme")
 devtools::install_github("bmacGTPM/orgthemes")
 ```
 
@@ -42,6 +44,7 @@ options(download.file.method = 'libcurl')
 Load the package using 
 
 ```{r, message=F}
+library(pubtheme)
 library(orgthemes)
 ```
 
@@ -53,271 +56,8 @@ restore.ggplot.defaults()
 
 at any time. 
 
-## Scatter plot
-```{r}
-dg = mtcars %>% 
-  select(wt, mpg)
-
-title = "Title in Upper Lower" 
-g = ggplot(dg, aes(x=wt, y=mpg))+
-  geom_point(aes(size=mpg), color=snred)+
-  labs(title    = title,
-       subtitle = 'Optional Subtitle In Upper Lower',
-       caption  = "Optional caption, giving additional info or twitter handle",
-       x = 'Horizontal Axis Label in Upper Lower',
-       y = 'Vertical Axis Label in Upper Lower')+
-  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
-  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
-  coord_cartesian(clip='off', expand=FALSE)+
-  theme_org(type='scatter', base_size = 12) 
-print(g)
-
-## Save to a file
-gg = g +
-  theme_org(type='scatter', base_size=36)+
-  scale_size(range=c(6,18)) 
-
-ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
-      plot=gg,
-      width=20,   
-      height=20,  
-      units='in', 
-      dpi=72)     
-```
-
-You must have a subfolder called `img` in order for the `ggsave` chunk above to work. 
-
-Note that we used `base_size=12` when viewing the image in RStudio. Use `ggsave` and `base_size=36` when saving an image instead of exporting from the RStudio viewer. Do not adjust the `width=20` in ggsave. 
-
-Do not change `width=20`, `units='in'`, or `dpi=72`. Height can be adjusted if desired. A square image is often preferred, so when in doubt, keep height at 20.
-
-Upper Lower means First letter of each word is capitalized. The option `expand=FALSE` removes the default padding. The option `breaks=c(0,3,6)` sets 3 lines at left, middle, and right. You can certainly add lines if there is a reason to, but when in doubt you can stick with just 3 lines (left/middle/right) only. Similarly, for the y-axis, top/middle/bottom only.  
-
-You'll notice a `scale_size(range=c(6,18)` when preparing the plot to be saved. 
-If you are using `size` inside `aes()`, you'll need that change the scale, otherwise the points will be too small. 
-
-
-## Line plot
-Since `name` and `value` will be more common column names when using these in the wild, we'll rename some columns to be name and value, to simplify copying and pasting later. 
-
-Continuous variables for `x` seem to be more common, so we'll convert date to days for this example, so that copying and pasting later becomes easier. We'll use `toupper()` to avoid using variables with all lowercase letters in the legend.
-
-```{r}
-dg = economics_long %>%
-  mutate(name = toupper(variable), 
-         days = as.numeric(date - min(date)), 
-         value= value01) %>%
-  select(days, name, value)
-head(dg)
-
-title = "Title in Upper Lower" 
-g = ggplot(dg, aes(x=days, y=value, color=name))+
-  geom_line()+
-  labs(title    = title,
-       subtitle = 'Optional Subtitle In Upper Lower',
-       caption  = "Optional caption, giving additional info or twitter handle",
-       x = 'Horizontal Axis Label in Upper Lower', 
-       y = 'Vertical Axis Label in Upper Lower')+  
-  scale_x_continuous(labels=comma) + 
-  scale_y_continuous(labels=comma, limits=c(0,1), breaks=c(0, .5, 1))+ 
-  coord_cartesian(clip='off', expand=FALSE)+
-  theme_org(type='line', base_size=36/3) 
-print(g)
-
-## Save to a file
-gg = g + 
-  theme_org(type='line', base_size=36)
-
-ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-       plot=gg,
-       width=20,   
-       height=20,  
-       units='in', 
-       dpi=72)     
-```
-
-Note that once again we set breaks for the y-axis at the top, middle, and bottom. 
-
-## Histogram
-```{r}
-dg = economics %>%
-  filter(date<='2008-01-01') %>%
-  rename(value=unemploy)
-
-title = "Title in Upper Lower" 
-g  = ggplot(dg, aes(x=value))+
-  geom_histogram(fill=snred, color=snbackgray, binwidth=500) + ## set a reasonable binwidth
-  labs(title    = title,
-       subtitle = 'Optional Subtitle In Upper Lower',
-       caption  = "Optional caption, giving additional info or twitter handle",
-       x = 'Horizontal Axis Label in Upper Lower', ## Required.
-       y = 'Count')+  ## Often don't need to change.
-  scale_x_continuous(labels=comma)+
-  scale_y_continuous(labels=comma, expand = c(0,0))+
-  theme_org(type='hist', base_size=36/3) 
-print(g)
-
-gg = g + 
-  theme_org(type='hist', base_size=36)
-
-ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
-       plot = gg,
-       width=20,   ## do not change
-       height=20,  
-       units='in', ## do not change
-       dpi=72)     ## do not change
-```
-
-Here `binwidth` will almost surely need to be changed for your data. 
-
-## Bar plot
-
-We'll use the `mtcars` data again, with some modifications. For cylinder, we'll add
-`-cylinder` to the numbers so it looks nice. We'll then convert it a factor so that we can specify the order. We'll also create a column called `max` which controls the length of the lightgray bars in the background. Finally, we'll rename `cyl` and `mpg` to `name` and `value`, which will be convenient when copying and pasting this code. 
-
-
-```{r fig.height=7*.75}
-dg = mtcars %>%
-  group_by(cyl) %>%
-  summarise(mpg = mean(mpg)) %>%
-  mutate(cyl = paste0(cyl, '-cylinder'),
-         cyl = factor(cyl, levels=c('8-cylinder', '6-cylinder', '4-cylinder')), 
-         max = 35) %>% ## for background cars
-  rename(name  = cyl, 
-         value = mpg) 
-
-title = "Title in Upper Lower" 
-g = ggplot(dg, aes(x=value, y=name))+
-  geom_bar(stat='identity', aes(x=max), color=NA, fill=snlightgray, width=0.8)+ ## optional background bars. 
-  geom_bar(stat='identity', fill=snred, color=NA, width=0.8)+ 
-  geom_text(aes(label=round(value,2)), hjust=-0.1)+ ## optional numbers with reasonable number of digits
-  labs(title    = title,
-       subtitle = 'Optional Subtitle In Upper Lower',
-       caption  = "Optional caption, giving additional info or twitter handle",
-       x = 'Horizontal Axis Label in Upper Lower', ## Optional. 
-       y = NULL)+  ## Optional. Upper Lower.
-  scale_x_continuous(limits=c(0,35))+ 
-  theme_org(type='bar', base_size=36/3) 
-print(g)
-
-gg = g + 
-  theme_org(type='bar', base_size=36)
-
-ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-       plot = gg,
-       width=20,   ## do not change
-       height=15,  
-       units='in', ## do not change
-       dpi=72)     ## do not change
-
-```
-
-If you are using digits next to the bars, you can increase the `max` so the text fits. 
-
-You may want to remove `x` and `y` axis titles.  If not used, use `x=NULL` and/or `y=NULL` above. Do not use `x=''` and/or `y=''`. If you do use axes titles, they should be in Upper Lower. 
-
-
-
-
-## Grid plot
-```{r fig.height=3.5}
-dg = airquality %>%
-  mutate(Month= month.abb[Month],
-         Month = factor(Month, levels=rev(month.abb))) %>% 
-  rename(name  = Day,
-         name2 = Month,
-         value = Temp)
-
-title = "Title in Upper Lower" 
-g = ggplot(dg, aes(x=name, y=name2, fill=value))+
-  geom_tile(size=0.4, show.legend = F) +
-  scale_fill_gradient(low = snbackgray,
-                      high = snred,
-                      na.value = 'white',
-                      oob=squish) +
-  labs(title    = title,
-       subtitle = 'Optional Subtitle In Upper Lower',
-       caption  = "Optional caption, giving additional info or twitter handle",
-       x = 'Day (Optional Axis Label in Upper Lower)', 
-       y = NULL)+  ## Optional. 
-  geom_vline(xintercept=1:(length(unique(dg$name ))+1)-.5, color=sndarkgray, size=0.2)+ # vert  lines between each square
-  geom_hline(yintercept=1:(length(unique(dg$name2))+1)-.5, color=sndarkgray, size=0.2)+ # horiz lines 
-  scale_x_continuous(expand = c(0, 0), position='top', breaks=seq(2,30,by=2))+
-  scale_y_discrete(  expand = c(0, 0)) +
-  theme_org(type='grid', base_size=36/3) 
-
-print(g)
-
-gg = g + 
-  theme_org(type='grid', base_size=36)
-
-ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
-       plot=gg,
-       width=20,   ## do not change
-       height=10,  
-       units='in', ## do not change
-       dpi=72)     ## do not change
-```
-
-## Dot and Whiskers Plot
-
-It is often desirable to visualize regression coefficients using a dot and whiskers plot instead of showing a table of coefficients and standard errors.  We'll make up a regression model and demonstrate that here. 
-
-```{r fig.height=7*10/20}
-## standardize predictors so they are roughly the same scale
-d = mtcars %>%
-  mutate(wt = scale(wt),  
-         cyl=scale(cyl), 
-         disp=scale(disp), 
-         hp = scale(hp))
-
-m1 = lm(mpg ~  wt + cyl + disp + hp, data=d)
-#summary(m1)
-
-dg = summary(m1)$coefficients %>% 
-  as.data.frame() %>%
-  rownames_to_column(var = 'var') %>%
-  rename(coef=Estimate, se=`Std. Error`) %>%
-  select(var, coef, se) %>%
-  mutate(var = toupper(gsub('[(]|[)]', '', var))) %>%
-  filter(var!='INTERCEPT')
-
-title = "Title in Upper Lower" 
-g = ggplot(dg, aes(x=coef, y=var))+
-  geom_segment(aes(x    = coef-se, 
-                   xend = coef+se,
-                   y    = var, 
-                   yend = var), color=snred)+
-  geom_point(color=snred) +
-  geom_vline(xintercept=0, color=snmediumgray)+
-  labs(title    = title,
-       subtitle = 'Optional Subtitle In Upper Lower',
-       caption  = "Optional caption, giving additional info or twitter handle",
-       x = 'Coefficient', 
-       y = NULL)+  ## Optional. 
-  scale_x_continuous(limits=c(-5,5))+
-  scale_y_discrete(expand=c(0,0)) +
-  coord_cartesian(clip='off')+
-  theme_org(type='dw', base_size=36/3) 
-
-print(g)
-
-gg = g + 
-  theme_org(type='dw', base_size=36)
-
-ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
-       plot=gg,
-       width=20,   ## do not change
-       height=10,  
-       units='in', ## do not change
-       dpi=72)     ## do not change
-
-
-```
-
-
-## Faceting
-We'll use our scatter plot example, but with `facet_wrap` to make separate plots for each `cyl`.
+## Logo
+You can add a logo to the lower right corner of your plot with `add_logo`. First, let's make a quick plot using `pubtheme::theme_pub`. 
 
 ```{r fig.height=7*13/20}
 dg = mtcars %>%
@@ -337,35 +77,21 @@ g = ggplot(dg, aes(x=wt, y=mpg))+
   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma_format(accuracy = 1))+
   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
   coord_cartesian(clip='off', expand=FALSE)+
-  theme_org(type='scatter', base_size=36/3, facet=T)
+  theme_pub(type='scatter', base_size=36/3, facet=T)
 print(g)
-
-gg = g +
-  theme_org(type='scatter', base_size=36, facet=T)
-  #scale_size(range=c(6,18))
-
-ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), ## must have a subfolder called 'img'
-       plot=gg, ## change range=c(6,18) when base_size=36
-       width=20,   ## do not change
-       height=13,  ## can change if desired. Here, 14 was chosen so that each subplot is square
-       units='in', ## do not change
-       dpi=72)     ## do not change
-
 ```
 
+Now let's add a logo.
 
-## Logo
-You can add a logo to the lower right corner of your plot with `add_logo`:
-
-```{r fig.height=7*13/20}
-g %>% add_logo(org='r') ## check logo in RStudio viewer
+```{r}
+g %>% add_logo(org='r') 
 
 ## Save to file
 gg = g +
-  theme_org(type='scatter', base_size=36, facet=T)+ 
+  theme_pub(type='scatter', base_size=36, facet=T)+ 
   scale_size(range=c(6,18)/2)
 
-gg = gg %>% add_logo(org='r') ## add logo to lower right corner
+gg = gg %>% add_logo(org='r') ## add logo after changing base_size
 
 ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
        plot=gg, 
@@ -376,7 +102,7 @@ ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"),
 
 ```
 
-You can easily add a logo to the theme.  All you need to do is add a image file for the logo called `orgname.png` to the logos folder, and then create a pull request. Then you'll be able to use `add_logo('orgname')`. For example, one of the logos of the American Statistical Association has been saved as `asa.png` in the logo folder, so instead of 
+You can easily add a logo to the `orgthemes` package.  All you need to do is add a image file for the logo called `orgname.png` to the `img` folder, and then create a pull request. After the pull request is approved anyone will be able to use `add_logo('orgname')`. For example, one of the logos of the American Statistical Association has been saved as `asa.png` in the `img` folder, so instead of 
 
 ```{r, eval=FALSE}
 g %>% add_logo(org='r')
@@ -391,24 +117,9 @@ g %>% add_logo(org='asa')
 The name of the file name, without the `png` file extension, must match what is put in the argument of `add_logo`. 
 
 Any logo can be used, but 
+
 1. logos that are wider logos are better than narrow logos, and  
 2. logos with a transparent background look *much* better. Your organization will typically have several options for logos (e.g. light background with dark text, dark background with light text, etc.). One of the options will typically be a transparent background with dark text. Choose that one if possible. 
-
-## Default colors
-
-This theme changes your default ggplot colors to those found in `colors.r`. 
-The palette for discrete color scales `scale_colour_discrete` and 
-`scale_fill_discrete` consists of red, blue, gray, light red, and light blue, 
-as seen in the Line Plot above. Recall that if you want to undo the changes made by this theme, you can use `restore.gglot.defaults()` at any time.
-
-If more than 5-6 colors are needed, the 14-color colorblind friendly palette `cb14` 
-can be used by adding 
-`+ scale_color_manual(values=cb14)` or 
-`+ scale_fill_manual( values=cb14)` to a plot. For example,
-
-```{r fig.height=7*13/20}
-g + scale_color_manual(values=cb14)
-```
 
 
 ## Organization-specific colors
@@ -416,11 +127,12 @@ You can use org-specific colors by specifying the `colors` argument, or by
 using the org-specific theme function like this:
 
 ```{r fig.height=7*13 /20}
-g + theme_org( type='scatter', base_size=12, facet=T, colors='yale')
+g + theme_pub( type='scatter', base_size=12, facet=T, colors='yale')
 g + theme_yale(type='scatter', base_size=12, facet=T) ## same
 ```
 
-You can easily add an organization-specific color scheme that does not yet exist in the package with a pull-request.  Open `colors.r`, and add a section for your org that 
+You can easily add an organization-specific color scheme that does not yet exist in the package with a pull-request.  Open `orgcolors.r`, and add a section for your org that 
+
 - defines the official colors, 
 - defines a color palette with those colors, and 
 - creates a theme function. 
@@ -430,41 +142,92 @@ palette, and theme function, and editing it for your organization. For example,
 you can copy this section for Yale:
 
 ```{r, eval=F}
-## Yale
-## Colors from https://yaleidentity.yale.edu/web
+## Yale colors
+## From https://yaleidentity.yale.edu/web
+#' A color used in `orgthemes`
+yalered       = NA ## no red      for yale, but other orgs probably use this
+#' A color used in `orgthemes`
+yalelightred  = NA ## no lightred for yale, but other orgs probably use this
+#' A color used in `orgthemes`
 yaleblue      ='#00356b'
+#' A color used in `orgthemes`
 yalemedblue   ='#286dc0'
+#' A color used in `orgthemes`
 yalelightblue ='#63aaff'
+#' A color used in `orgthemes`
 yaledarkgray  ='#222222'
+#' A color used in `orgthemes`
 yalemediumgray='#4a4a4a'
+#' A color used in `orgthemes`
 yalebrowngray ='#978d85'
+#' A color used in `orgthemes`
 yalelightgray ='#dddddd'
+#' A color used in `orgthemes`
 yalegreen     ='#5f712d'
+#' A color used in `orgthemes`
 yaleorange    ='#bd5319'
+#' A color used in `orgthemes`
 yalebackgray  ='#f9f9f9'
 
-## Palette
-yale.pal = c(yaleblue   , yaleorange,
+#' A color palette for Yale used in `orgthemes`
+#'
+#' The colors are listed in the order we typically want to use them
+yale.pal = c(yaleblue      , yaleorange,
              yalemediumgray, yalebrowngray,
              yalelightblue , yalegreen,
              yalelightgray , yaleblue)
 
 
-## Yale theme.  Same as theme_org but with the Yale-specific colors
+#' Yale ggplot theme called theme_yale.
+#'
+#' Same as theme_pub but with the Yale-specific colors
+#' @import pubtheme
 theme_yale <- function (type='line',
                         base_size = 36/3,
                         base_family = "sans",
                         base_line_size=base_size*.35/36*3,
                         base_rect_size=base_size*.35/36,
                         facet=F){
-  theme_org(type=type,
-           base_size     =base_size,
-           base_family   =base_family,
-           base_line_size=base_line_size,
-           base_rect_size=base_rect_size,
-           facet=facet,
-           colors = 'yale')
+  theme_pub(type=type,
+            base_size     =base_size,
+            base_family   =base_family,
+            base_line_size=base_line_size,
+            base_rect_size=base_rect_size,
+            facet=facet,
+            colors = 'yale')
 }
+
 ```
 
-Typically your org's official colors can be found by googling `orgname colors brand` or something similar. 
+Be sure to include the `#'` lines before each newly define object and function. They are needed to document the objects you create and eliminate warnings when the package is built. Typically your org's official colors can be found by googling `orgname colors brand` or something similar. 
+
+Here is a sample of some of the org colors and logos that are currently implemented. 
+
+```{r}
+dg = mtcars %>% 
+  select(wt, mpg, carb) %>%
+  mutate(carb = factor(carb))
+
+title = "Title in Upper Lower" 
+g = ggplot(dg, aes(x=wt, y=mpg, color=carb))+
+  geom_point(aes(size=mpg))+
+  labs(title    = title,
+       subtitle = 'Optional Subtitle In Upper Lower',
+       caption  = "Optional caption, giving additional info or twitter handle",
+       x = 'Horizontal Axis Label in Upper Lower',
+       y = 'Vertical Axis Label in Upper Lower')+
+  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
+  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
+  coord_cartesian(clip='off', expand=FALSE)+
+  theme_pub(type='scatter', base_size = 12) 
+g1 = g + theme_pub(type='scatter', base_size=12, facet=T) 
+g2 = g + theme_pub(type='scatter', base_size=12, facet=T, colors='yale')
+g3 = g + theme_pub(type='scatter', base_size=12, facet=T, colors='cmu' )
+#g2 = g + theme_yale(type='scatter', base_size=12, facet=T)
+#g3 = g + theme_cmu(type='scatter' , base_size=12, facet=T)
+
+g1 
+g2 %>% add_logo(org='yale')
+
+```
+
