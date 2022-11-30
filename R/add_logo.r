@@ -1,5 +1,15 @@
-## add.logo.r
-
+#' Function to add a logo to a ggplot that uses theme_pub
+#' @param g A ggplot created with theme_pub or an organization-specific theme
+#' @param org name of the org. Must match the name of the .png in the logo folder.
+#' @import tidyverse
+#' @import ggplot2
+#' @import scales
+#' @import png
+#' @import grid
+#' @import gtable
+#' @import ggplotify
+#' @import pubtheme
+#' @export
 add_logo = function(g = NULL,
                     org='yale'){
 
@@ -8,7 +18,7 @@ add_logo = function(g = NULL,
 
   ## read in logo
   #logo <- readPNG(system.file("img", "Rlogo.png", package="png"), TRUE)
-  logo <- readPNG(paste0('logo/', org, '.png'), TRUE)
+  logo <- readPNG(paste0('img/', org, '.png'), TRUE)
 
   logo.grob = rasterGrob(logo,
                          #x = 1-50/144, y=0+50/144,
@@ -16,10 +26,16 @@ add_logo = function(g = NULL,
                          hjust = 1, vjust=0,
                          height=unit(120, 'points')*base_size/36)
 
-
   gt = ggplot_gtable(ggplot_build(g))
-  t = gt$layout %>% filter(name=='background') %>% select(b)
-  l = gt$layout %>% filter(name=='background') %>% select(r)
+  gtlayout = gt$layout
+  t = gtlayout[gtlayout$name=='background', 'b']
+  l = gtlayout[gtlayout$name=='background', 'r']
+  # t = gtlayout %>%
+  #   dplyr::filter(name=='background') %>%
+  #   dplyr::select(b)
+  # l = gtlayout %>%
+  #   dplyr::filter(name=='background') %>%
+  #   dplyr::select(r)
   gt = gtable_add_grob(x=gt, grobs = logo.grob, t=t, l=l, clip = 'off')
   gg = gt %>% as.ggplot()
   gg
