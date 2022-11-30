@@ -79,11 +79,12 @@ g = ggplot(dg, aes(x=wt, y=mpg))+
   coord_cartesian(clip='off', expand=FALSE)+
   theme_pub(type='scatter', base_size=36/3, facet=T)
 print(g)
+g1=g
 ```
 
 Now let's add a logo.
 
-```{r}
+```{r fig.height=7*13/20}
 g %>% add_logo(org='r') 
 
 ## Save to file
@@ -123,11 +124,9 @@ Any logo can be used, but
 
 
 ## Organization-specific colors
-You can use org-specific colors by specifying the `colors` argument, or by
-using the org-specific theme function like this:
+You can use org-specific colors by using the org-specific theme function like this:
 
 ```{r fig.height=7*13 /20}
-g + theme_pub( type='scatter', base_size=12, facet=T, colors='yale')
 g + theme_yale(type='scatter', base_size=12, facet=T) ## same
 ```
 
@@ -203,14 +202,16 @@ Be sure to include the `#'` lines before each newly define object and function. 
 
 Here is a sample of some of the org colors and logos that are currently implemented. 
 
-```{r}
+```{r fig.height=4}
 dg = mtcars %>% 
   select(wt, mpg, carb) %>%
-  mutate(carb = factor(carb))
+  mutate(carb = ifelse(carb %in% c(6,8), '6 or 8', carb),
+         carb = factor(carb))
 
 title = "Title in Upper Lower" 
 g = ggplot(dg, aes(x=wt, y=mpg, color=carb))+
   geom_point(aes(size=mpg))+
+  facet_wrap(~carb, nrow=1)+
   labs(title    = title,
        subtitle = 'Optional Subtitle In Upper Lower',
        caption  = "Optional caption, giving additional info or twitter handle",
@@ -219,14 +220,11 @@ g = ggplot(dg, aes(x=wt, y=mpg, color=carb))+
   scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
   scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
   coord_cartesian(clip='off', expand=FALSE)+
-  theme_pub(type='scatter', base_size = 12) 
-g1 = g + theme_pub(type='scatter', base_size=12, facet=T) 
-g2 = g + theme_pub(type='scatter', base_size=12, facet=T, colors='yale')
-g3 = g + theme_pub(type='scatter', base_size=12, facet=T, colors='cmu' )
-#g2 = g + theme_yale(type='scatter', base_size=12, facet=T)
-#g3 = g + theme_cmu(type='scatter' , base_size=12, facet=T)
+  theme_pub(type='scatter', base_size = 12, facet=T) 
 
+g1 = g + theme_pub( type='scatter', base_size=12, facet=T) 
 g1 
+g2 = g + theme_yale(type='scatter', base_size=12, facet=T)
 g2 %>% add_logo(org='yale')
 
 ```

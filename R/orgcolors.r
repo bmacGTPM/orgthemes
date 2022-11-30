@@ -48,6 +48,7 @@ yale.pal = c(yaleblue      , yaleorange,
 #' @param base_line_size Same as in `theme_pub`
 #' @param base_rect_size Same as in `theme_pub`
 #' @param facet Same as in `theme_pub`
+#' @export
 theme_yale <- function (type='line',
                         base_size = 36/3,
                         base_family = "sans",
@@ -60,7 +61,7 @@ theme_yale <- function (type='line',
             base_line_size=base_line_size,
             base_rect_size=base_rect_size,
             facet=facet,
-            colors = 'yale')
+            colors = yale.pal)
 }
 
 
@@ -106,6 +107,7 @@ cmu.pal = c(cmured, cmublue, cmumediumgray, cmulightgray,
 #' @param base_line_size Same as in `theme_pub`
 #' @param base_rect_size Same as in `theme_pub`
 #' @param facet Same as in `theme_pub`
+#' @export
 theme_cmu <- function (type='line',
                        base_size = 36/3,
                        base_family = "sans",
