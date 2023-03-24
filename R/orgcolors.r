@@ -5,16 +5,12 @@
 ## From https://yaleidentity.yale.edu/web
 #' A color used in `orgthemes`
 yalered       = NA ## no red      for yale, but other orgs probably use this
-
 #' A color used in `orgthemes`
 yalelightred  = NA ## no lightred for yale, but other orgs probably use this
-
 #' A color used in `orgthemes`
 yaleblue      ='#00356b'
-
 #' A color used in `orgthemes`
 yalemedblue   ='#286dc0'
-
 #' A color used in `orgthemes`
 yalelightblue ='#63aaff'
 #' A color used in `orgthemes`
@@ -126,4 +122,3 @@ theme_cmu <- function (type='line',
             facet=facet,
             colors = 'cmu')
 }
-
