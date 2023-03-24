@@ -1,0 +1,231 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  fig.height=7, 
+  fig.width=7,
+  dpi=84,
+  #out.width="80%",
+  fig.align='center',
+  fig.show='hold'
+)
+library(knitr)
+```
+
+# pubtheme
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The package `orgthemes` contains organization-specific color palettes and logos can be used to modify the default colors used in `pubtheme`. You can add your own organizations colors and logos by following the directions in the examples below. 
+
+## Installation
+
+If you don't have the package `devtools`, install it using `install.packages('devtools')`. If you have `devtools`, you can install the GitHub versions of `pubtheme` and `orgthemes` with:
+
+``` r
+devtools::install_github("bmacGTPM/pubtheme")
+devtools::install_github("bmacGTPM/orgthemes")
+```
+
+If you get an error about download method, try changing this option before installing. 
+
+```r
+options(download.file.method = 'libcurl')
+```
+
+Load the package using 
+
+```{r, message=F}
+library(pubtheme)
+library(orgthemes)
+```
+
+as usual. The theme will change some of your ggplot defaults the first time you use it. To change them back, restart R, or use 
+
+```{r, eval=F}
+restore.ggplot.defaults()
+```
+
+at any time. 
+
+## Logo
+You can add a logo to the lower right corner of your plot with `add_logo`. First, let's make a quick plot using `pubtheme::theme_pub`. 
+
+```{r fig.height=7*13/20}
+dg = mtcars %>%
+  select(wt, mpg, cyl) %>%
+  mutate(cyl = paste0(cyl, '-cylinder')) %>%
+  rename(name = cyl)
+
+title = "Title in Upper Lower" ## to be used by ggplot and ggsave
+g = ggplot(dg, aes(x=wt, y=mpg))+
+  geom_point(aes(size=mpg, color=name), show.legend=F)+
+  facet_wrap(~name, nrow=1) +
+  labs(title    = title,
+       subtitle = 'Optional Subtitle In Upper Lower',
+       caption  = "Optional caption, giving additional info or twitter handle",
+       x = 'Horizontal Axis Label in Upper Lower',
+       y = 'Vertical Axis Label in Upper Lower')+
+  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma_format(accuracy = 1))+
+  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
+  coord_cartesian(clip='off', expand=FALSE)+
+  theme_pub(type='scatter', base_size=36/3, facet=T)
+print(g)
+g1=g
+```
+
+Now let's add a logo.
+
+```{r fig.height=7*13/20}
+g %>% add_logo(org='r') 
+
+## Save to file
+gg = g +
+  theme_pub(type='scatter', base_size=36, facet=T)+ 
+  scale_size(range=c(6,18)/2)
+
+gg = gg %>% add_logo(org='r') ## add logo after changing base_size
+
+ggsave(filename=paste0("img/", gsub("%", " Perc", title), ".jpg"), 
+       plot=gg, 
+       width=20,   ## do not change
+       height=13,  
+       units='in', ## do not change
+       dpi=72)     ## do not change
+
+```
+
+You can easily add a logo to the `orgthemes` package.  All you need to do is add a image file for the logo called `orgname.png` to the `img` folder, and then create a pull request. After the pull request is approved anyone will be able to use `add_logo('orgname')`. For example, one of the logos of the American Statistical Association has been saved as `asa.png` in the `img` folder, so instead of 
+
+```{r, eval=FALSE}
+g %>% add_logo(org='r')
+```
+
+we can use
+
+```{r fig.height=7*13/20}
+g %>% add_logo(org='asa')
+```
+
+The name of the file name, without the `png` file extension, must match what is put in the argument of `add_logo`. 
+
+Any logo can be used, but 
+
+1. logos that are wider logos are better than narrow logos, and  
+2. logos with a transparent background look *much* better. Your organization will typically have several options for logos (e.g. light background with dark text, dark background with light text, etc.). One of the options will typically be a transparent background with dark text. Choose that one if possible. 
+
+
+## Organization-specific colors
+You can use org-specific colors by using the org-specific theme function like this:
+
+```{r fig.height=7*13 /20}
+g + theme_yale(type='scatter', base_size=12, facet=T) ## same
+```
+
+You can easily add an organization-specific color scheme that does not yet exist in the package with a pull-request.  Open `orgcolors.r`, and add a section for your org that 
+
+- defines the official colors, 
+- defines a color palette with those colors, and 
+- creates a theme function. 
+
+You can do this easily by copying and pasting another organization's colors, 
+palette, and theme function, and editing it for your organization. For example, 
+you can copy this section for Yale:
+
+```{r, eval=F}
+## Yale colors
+## From https://yaleidentity.yale.edu/web
+#' A color used in `orgthemes`
+yalered       = NA ## no red      for yale, but other orgs probably use this
+#' A color used in `orgthemes`
+yalelightred  = NA ## no lightred for yale, but other orgs probably use this
+#' A color used in `orgthemes`
+yaleblue      ='#00356b'
+#' A color used in `orgthemes`
+yalemedblue   ='#286dc0'
+#' A color used in `orgthemes`
+yalelightblue ='#63aaff'
+#' A color used in `orgthemes`
+yaledarkgray  ='#222222'
+#' A color used in `orgthemes`
+yalemediumgray='#4a4a4a'
+#' A color used in `orgthemes`
+yalebrowngray ='#978d85'
+#' A color used in `orgthemes`
+yalelightgray ='#dddddd'
+#' A color used in `orgthemes`
+yalegreen     ='#5f712d'
+#' A color used in `orgthemes`
+yaleorange    ='#bd5319'
+#' A color used in `orgthemes`
+yalebackgray  ='#f9f9f9'
+
+#' A color palette for Yale used in `orgthemes`
+#'
+#' The colors are listed in the order we typically want to use them
+yale.pal = c(yaleblue      , yaleorange,
+             yalemediumgray, yalebrowngray,
+             yalelightblue , yalegreen,
+             yalelightgray , yaleblue)
+
+
+#' Yale ggplot theme called theme_yale.
+#'
+#' Same as theme_pub but with the Yale-specific colors
+#' @import pubtheme
+theme_yale <- function (type='line',
+                        base_size = 36/3,
+                        base_family = "sans",
+                        base_line_size=base_size*.35/36*3,
+                        base_rect_size=base_size*.35/36,
+                        facet=F){
+  theme_pub(type=type,
+            base_size     =base_size,
+            base_family   =base_family,
+            base_line_size=base_line_size,
+            base_rect_size=base_rect_size,
+            facet=facet,
+            colors = 'yale')
+}
+
+```
+
+Be sure to include the `#'` lines before each newly define object and function. They are needed to document the objects you create and eliminate warnings when the package is built. Typically your org's official colors can be found by googling `orgname colors brand` or something similar. 
+
+Here is a sample of some of the org colors and logos that are currently implemented. 
+
+```{r fig.height=4}
+dg = mtcars %>% 
+  select(wt, mpg, carb) %>%
+  mutate(carb = ifelse(carb %in% c(6,8), '6 or 8', carb),
+         carb = factor(carb))
+
+title = "Title in Upper Lower" 
+g = ggplot(dg, aes(x=wt, y=mpg, color=carb))+
+  geom_point(aes(size=mpg))+
+  facet_wrap(~carb, nrow=1)+
+  labs(title    = title,
+       subtitle = 'Optional Subtitle In Upper Lower',
+       caption  = "Optional caption, giving additional info or twitter handle",
+       x = 'Horizontal Axis Label in Upper Lower',
+       y = 'Vertical Axis Label in Upper Lower')+
+  scale_x_continuous(limits=c(0, 6), breaks=c(0, 3, 6), oob=squish, labels=comma)+
+  scale_y_continuous(limits=c(0,40), breaks=c(0,20,40), oob=squish, labels=comma)+
+  coord_cartesian(clip='off', expand=FALSE)+
+  theme_pub(type='scatter', base_size = 12, facet=T) 
+
+g1 = g + theme_pub( type='scatter', base_size=12, facet=T) 
+g1 
+g2 = g + theme_yale(type='scatter', base_size=12, facet=T)
+g2 %>% add_logo(org='yale')
+
+```
+
