@@ -37,6 +37,6 @@ add_logo = function(g = NULL,
   #   dplyr::filter(name=='background') %>%
   #   dplyr::select(r)
   gt = gtable_add_grob(x=gt, grobs = logo.grob, t=t, l=l, clip = 'off')
-  gg = gt %>% as.ggplot()
+  gg = as.ggplot(gt)
   gg
 }

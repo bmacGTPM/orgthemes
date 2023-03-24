@@ -49,6 +49,7 @@ yale.pal = c(yaleblue      , yaleorange,
 #' @param base_rect_size Same as in `theme_pub`
 #' @param facet Same as in `theme_pub`
 #' @export
+#' @exportPattern "^[[:alpha:]]+" ## exports all objects like colors
 theme_yale <- function (type='line',
                         base_size = 36/3,
                         base_family = "sans",
@@ -122,4 +123,3 @@ theme_cmu <- function (type='line',
             facet=facet,
             colors = 'cmu')
 }
-
